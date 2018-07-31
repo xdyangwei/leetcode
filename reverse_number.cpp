@@ -2,7 +2,8 @@
 #include<list>
 #include<algorithm>
 using namespace std;
-//首先算出整数的每一位数，放入一个vector中，再pop出来
+//首先先判断正负，负数的话求出其绝对值，接着算出整数的每一位数，放入一个list中，再pop_front出来
+//再从尾到头遍历list，求出最后的整数值
 class Solution {
 public:
     int reverse(int x) {
@@ -23,10 +24,23 @@ public:
    if(*v1.begin()==0){
        v1.pop_front();
    }
-    
+   int sum=0;
+   int ss=1;
+   auto s=(--v1.end());
+while(s!=--v1.begin()){
+    sum+=(*s)*ss;
+    ss*=10;
+    //cout<<sum<<endl;
+    s--;
+}
+if(flag==0){
+    sum=0-sum;
+}
+return sum;
+}
 };
 int main(){
     Solution s;
-    s.reverse(120);
+    cout<<s.reverse(-321);
     return 0;
 }
