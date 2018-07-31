@@ -2,6 +2,7 @@
 #include<list>
 #include<vector>
 #include<algorithm>
+#include<stack>
 using namespace std;
 class Solution {
 public:
@@ -145,10 +146,53 @@ public:
     }
     return ss;
     }
+//有效的括号
+//思路：碰到左边括号就压栈，右边括号就比较
+//如果符合就继续出栈，直到不成立为止
+    bool isValid(string s) {
+    stack<char> s1;
+    bool flag=1;
+    char m;
+    for(auto ss:s){
+        switch (ss)
+        {
+            case '{':
+            case '[':
+            case '(':
+                s1.push(ss);
+                break;
+            case ')':
+                m=s1.top();
+                if(m=='(')
+                s1.pop();
+                else{
+                    flag=0;
+                }
+                break;
+            case ']':
+                m=s1.top();
+                if(m=='[')
+                s1.pop();
+                else{
+                    flag=0;
+                }
+                break;
+            case '}':
+                m=s1.top();
+                if(m=='{')
+                s1.pop();
+                else{
+                    flag=0;
+                }
+                break;
+        }
+    }
+    return flag;
+    }
 };
 int main(){
     Solution s;
     vector<string> v1={"dog","docecar","dor"};
-    cout<<s.longestCommonPrefix(v1);
+    cout<<boolalpha<<s.isValid("([)]")<<noboolalpha;
     return 0;
 }
