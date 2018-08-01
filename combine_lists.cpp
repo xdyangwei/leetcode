@@ -10,7 +10,14 @@ public:
     //两个有序链表合并
     //一个while循环遍历两个链表，然后再从大到小新建一个新的合并后的列表
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        int min;
+         int min;
+        if(l1==NULL&&l2==NULL){
+            return NULL;
+        }else if(l1==NULL){
+            return l2;
+        }else if(l2==NULL){
+            return l1;
+        }else{
         if(l1->val>=l2->val){
             min=l2->val;
             l2=l2->next;
@@ -37,6 +44,7 @@ public:
             }
         
         return l4;
+    }
     }
 };
 int main(){
