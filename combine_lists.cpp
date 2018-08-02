@@ -98,17 +98,22 @@ public:
     //查询有序数组中的一个数值，若存在返回其索引，若不存在将其按顺序插入并返回索引
     //思路：find方法查询数值，若迭代器不为end，则用当前迭代器减去begin即为下标
     //若迭代器为end，则插入，使用for循环方法找到第一个比target大的值，然后插入起前面
+    bool compare(int a,int target){
+        return a>target?true:false;
+    }
     int searchInsert(vector<int>& nums, int target) {
         auto x=find(nums.begin(),nums.end(),target);
         if(x!=nums.end()){
             return x-nums.begin();
         }else{
-            auto y=0;
-            for(y=0;y<nums.size();y++){
-                if(nums[y]>target)
-                break;
-            }
-            nums.insert(nums.begin()+y,target);
+            //auto y=0;
+            // for(y=0;y<nums.size();y++){
+            //     if(nums[y]>target)
+            //     break;
+            // }
+            // nums.insert(nums.begin()+y,target);
+            auto y=find_if(nums.begin(),nums.end(),bind2nd(compare,target));
+            
             return y;
         }
     }
@@ -124,4 +129,4 @@ int main(){
         ll=ll->next;
     }
 }
-
+ 
