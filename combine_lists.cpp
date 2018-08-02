@@ -1,7 +1,9 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
+#include<functional>
 using namespace std;
+using namespace std::placeholders;
 struct ListNode {
       int val;
       ListNode *next;
@@ -99,34 +101,36 @@ public:
     //思路：find方法查询数值，若迭代器不为end，则用当前迭代器减去begin即为下标
     //若迭代器为end，则插入，使用for循环方法找到第一个比target大的值，然后插入起前面
     bool compare(int a,int target){
-        return a>target?true:false;
+        if(a>target){
+            return true;
+        }else{
+            return false;
+        }    
     }
     int searchInsert(vector<int>& nums, int target) {
         auto x=find(nums.begin(),nums.end(),target);
+        //auto (*p)(int,int)=compare;
+        //auto p=&compare;
         if(x!=nums.end()){
             return x-nums.begin();
         }else{
-            //auto y=0;
-            // for(y=0;y<nums.size();y++){
-            //     if(nums[y]>target)
-            //     break;
-            // }
-            // nums.insert(nums.begin()+y,target);
-            auto y=find_if(nums.begin(),nums.end(),bind2nd(compare,target));
-            
+            auto y=0;
+            for(y=0;y<nums.size();y++){
+                if(nums[y]>target)
+                break;
+            }
+            nums.insert(nums.begin()+y,target);  
+            //auto y=find_if(nums.begin(),nums.end(),bind(&Solution::compare,_1,target));
+            // nums.insert(y,target);  
+            // return y-nums.begin();
             return y;
         }
     }
 };
 int main(){
-    ListNode *l1=new ListNode(1);ListNode *l2=new ListNode(2);ListNode *l3=new ListNode(3);ListNode *l4=new ListNode(1);ListNode *l5=new ListNode(5);ListNode *l6=new ListNode(6);
-    l1->next=l2;l2->next=l3;
-    l4->next=l5;;l5->next=l6;
+    vector<int> v={1,2,4,5};
     Solution s;
-    ListNode* ll=s.mergeTwoLists(l1,l4);
-    while(ll!=NULL){
-        cout<<ll->val<<endl;
-        ll=ll->next;
-    }
+    cout<<s.searchInsert(v,3);
+    return 0;
 }
  
