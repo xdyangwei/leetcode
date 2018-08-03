@@ -3,7 +3,6 @@
 #include<vector>
 #include<functional>
 using namespace std;
-using namespace std::placeholders;
 struct ListNode {
       int val;
       ListNode *next;
@@ -126,11 +125,22 @@ public:
             return y;
         }
     }
+    //使用bind函数绑定类的成员函数时第一个绑定的参数是类的对象，接下来才是函数的参数
+    //在类中定义的话可以使用this指代当前对象
+    int searchInsert2(vector<int>& nums, int target){
+        auto x=find(nums.begin(),nums.end(),target);
+        if(x!=nums.end()){
+            return x-nums.begin();
+        }else{
+        auto y=find_if(nums.begin(),nums.end(),bind(&Solution::compare,this,std::placeholders::_1,target));
+        return y-nums.begin();
+        }
+    }
 };
 int main(){
     vector<int> v={1,2,4,5};
     Solution s;
-    cout<<s.searchInsert(v,3);
+    cout<<s.searchInsert2(v,3);
     return 0;
 }
  
