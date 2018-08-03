@@ -46,7 +46,7 @@ public:
                        for(int j=1;j<=k;j++){
                            if((i+j)<nums.size()){
                                if(abs(nums[i]-nums[j+i])<=t){
-                                   cout<<abs(nums[i]-nums[j+i])<<endl;
+                                   cout<<abs (nums[i]-nums[j+i])<<endl;
                                flag=true;}
                            }
                        }
