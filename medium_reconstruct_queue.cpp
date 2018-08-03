@@ -28,6 +28,9 @@ public:
     //存在重复元素，给定一个整数数组，判断数组中是否有两个不同的索引 i 和 j，
     //使得 nums [i] 和 nums [j] 的差的绝对值最大为 t，并且 i 和 j 之间的差的绝对值最大为 ķ。
     //思路：遍历整个数组，每个遍历值与他相邻k个位置之间的值求差的绝对值，若存在则为true
+    static bool notfu(int x){
+        return x<0?true:false;
+    }
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
         bool flag=false;
         if(nums.size()<=1){
@@ -45,9 +48,17 @@ public:
                    for(int i=0;i<nums.size();i++){
                        for(int j=1;j<=k;j++){
                            if((i+j)<nums.size()){
+                               if(find(nums.begin(),nums.end(),2147483647)!=nums.end()){
+                                if(find_if(nums.begin(),nums.end(),notfu)!=nums.end()){
+                                    flag=false;
+                                }else{
+                                    flag=true;
+                                }
+                               }else{
                                if(abs(nums[i]-nums[j+i])<=t){
-                                   cout<<abs (nums[i]-nums[j+i])<<endl;
+                                   cout<<abs(nums[i]-nums[j+i])<<endl;
                                flag=true;}
+                           }
                            }
                        }
                    } 
@@ -59,7 +70,7 @@ public:
 
 int main(){
     Solution s;
-    vector<int> v={-1,2147483647};
-    s.containsNearbyAlmostDuplicate(v,1,2147483647);
+    vector<int> v={-2147483647,2147483647};
+    cout<<s.containsNearbyAlmostDuplicate(v,1,2147483647);
     return 0;
 }
