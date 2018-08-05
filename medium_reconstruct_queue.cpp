@@ -66,6 +66,18 @@ public:
             }
             return flag;
         }
+        //实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+        //如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+        //必须原地修改，只允许使用额外常数空间。
+        //思路1：使用STL中的next_permutation函数找出数组的下个排列，若函数返回值为false表示已为最大排列
+        //因此，此时直接使用sort函数即可
+        //思路2：从后往前遍历数组找到第一个比后面一个数小的数，如果不存在这说明已是最大排列，sort一下即可。如果下标
+        //大于0，则再次从后往前遍历数组找到第一个比当前值大的值，将其交换，然后再将当前值以后的数组部分sort即可   
+        void nextPermutation(vector<int>& nums) {
+        bool x=next_permutation(nums.begin(),nums.end());
+        if(x==false)
+        sort(nums.begin(),nums.end());
+    }
     };
 
 int main(){
