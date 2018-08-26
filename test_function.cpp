@@ -16,6 +16,8 @@ int main(){
     // for(auto s:v){
     //     cout<<s.first<<" "<<s.second<<endl;
     // }
-    cout<<fabs(2147483647+2147483645)<<endl;
+    string s="aba";
+    sort(s.begin(),s.end());
+    cout<<s<<endl;
     return 0;
 }

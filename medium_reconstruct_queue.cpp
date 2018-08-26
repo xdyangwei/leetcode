@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<functional>
 #include<cmath>
+#include<map>
 using namespace std;
 class Solution {
 public:
@@ -80,9 +81,30 @@ public:
     }
     };
 
+    //给定一个字符串，将它以每个字符出现的次数降序进行重新排列
+    //思路：使用count函数，算出每个字符出现的此数，并将其放入一个由字符和其出现次数所组成的map中
+    //最后将其按照出现次数的降序进行排列
+    string frequencySort(string s) {
+    multimap<int,char,greater<int>> m;
+    sort(s.begin(),s.end());
+    auto ss=s.begin();
+    while(ss!=s.end()){
+        auto num=count(ss,s.end(),*ss);
+        m.insert(make_pair(num,*ss));
+        ss+=num;
+    }
+    string sss="";
+    for(auto ssss:m){
+        auto x=ssss.first;
+        while(x!=0){
+        sss.push_back(ssss.second);
+        x-=1;
+        }
+    }
+    return sss;
+    }
 int main(){
     Solution s;
-    vector<int> v={-2147483647,2147483647};
-    cout<<s.containsNearbyAlmostDuplicate(v,1,2147483647);
+    cout<<frequencySort("aabccdddef");
     return 0;
 }
