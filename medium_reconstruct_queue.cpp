@@ -103,8 +103,35 @@ public:
     }
     return sss;
     }
+
+    //合并两个有序数列
+    //思路：遍历一个数列，然后使用find_if查找另一个数列中第一个比目前遍历值大的迭代器，然后
+    //再使用insert插入即可
+    static bool compare_first_greater(int m,int n){
+        return m>=n?true:false;
+    }
+    static bool last_not_zero(int m){
+        return m==0?false:true;
+    }
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int num=nums1.size();
+        nums1.erase(nums1.begin()+m,nums1.end());
+        for(auto s:nums2){
+            nums1.push_back(s);
+        }
+        sort(nums1.begin(),nums1.end());
+        int num2=num-nums1.size();
+        while(num2!=0){
+            nums1.push_back(0);
+        }
+    }
 int main(){
     Solution s;
-    cout<<frequencySort("aabccdddef");
+    vector<int> num1={-1,-1,0,0,0,0};
+    vector<int> num2={-1,0};
+    merge(num1,4,num2,2);
+    for(auto s:num1){
+        cout<<s<<endl;
+    }
     return 0;
 }
