@@ -105,8 +105,8 @@ public:
     }
 
     //合并两个有序数列
-    //思路：遍历一个数列，然后使用find_if查找另一个数列中第一个比目前遍历值大的迭代器，然后
-    //再使用insert插入即可
+    //思路：遍历一个数列，然后使用insert将当前遍历值插入另一个数列，然后
+    //再使用sort排序即可，最后将原有数列大小用0扩充
     static bool compare_first_greater(int m,int n){
         return m>=n?true:false;
     }
