@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<set>
 #include<map>
+#include<unordered_map>
 using namespace std;
 /*
 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。
@@ -68,43 +69,28 @@ public:
     return sumOfLeftLeaves(root->right);
     }
     //问题：根据年龄发朋友请求
-    //思路：遍历所给数组，从第一个数开始判断条件是否吻合，吻合则不做朋友，不吻合则做朋友，做朋友的话将两个年龄放入一个map中，最后计算map中的数量即可
+    //思路：遍历所给数组，使用关联容器存储值和值的个数
+    //然后使用两次for循环遍历关联容器判断key是否满足条件，如果满足的话就将两者的个数相乘，如果二者key相同，则相乘的时候减去1即可
     int numFriendRequests(vector<int>& ages) {
-         int c[121]={0};
-        for(auto age:ages)
-        c[age]++;
-        sort(ages.begin(),ages.end());
-        ages.erase(unique(ages.begin(),ages.end()),ages.end());
-        if(ages.size()==1){
-            return c[ages[0]];
+          unordered_map<int,int>m;
+        for(auto i: ages)
+            m[i]++;
+        int res = 0;
+        for(auto i1: m){
+            for(auto i2: m){
+                if((i2.first <= i1.first && i2.first>i1.first*0.5 + 7)){
+                    res += i2.second*(i1.second - (i1.first == i2.first ? 1:0));
+                }
+            }
         }
-        multimap<int,int> m;
-        for(auto x=ages.begin();x!=ages.end();x++){
-           for(auto y=ages.begin();y!=ages.end();y++){
-               int flag=0;
-               if(*y<=0.5*(*x)+7||*y>*x||(*y>100&&*x<100))
-               flag=1;
-               if(flag==0&&x!=y){
-               m.insert(make_pair(*x,*y));
-               cout<<*x<<" "<<*y<<endl;
-               }
-           }
-        }
-        int sum=0;
-        for(auto mm:m){
-            sum+=(c[mm.first]);
-        }
-        for(int i=0;i<120;i++){
-            sum+=c[i];
-        }
-        return sum;
+        return res;
     }
 };
 int main(){
-    vector<int> nums={2,7,11,15};
+    vector<int> nums={56,117,42,55,100,27,97,113,56,57,117,13,42,119,67};
     string str="ABc";
     Solution s;
-    str=s.toLowerCase(str);
-    cout<<str<<endl;
+    int a=s.numFriendRequests(nums);
+    cout<<a<<endl;
     return 0;
 }
