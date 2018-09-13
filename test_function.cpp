@@ -16,8 +16,10 @@ int main(){
     // for(auto s:v){
     //     cout<<s.first<<" "<<s.second<<endl;
     // }
-    string s="aba";
-    sort(s.begin(),s.end());
-    cout<<s<<endl;
+    vector<string> s={"123","12","111"};
+    auto ss=s.begin();
+    auto sss=s.begin()+1;
+    s.erase(ss);
+    cout<<*ss<<*sss<<endl;
     return 0;
 }
