@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<cmath>
 #include <iomanip>
+#include<bitset>
 using namespace std;
 //问题：设有n个正整数，将他们连接成一排，组成一个最大的多位整数。
 //如:n=3时，3个整数13,312,343,连成的最大整数为34331213。
@@ -192,9 +193,56 @@ double x,y;//x的数据类型一定要为double，因为之后会对它进行平
     return sum;
     
 }
+/*
+题目：游戏里面有很多各式各样的任务，其中有一种任务玩家只能做一次，这类任务一共有1024个，
+任务ID范围[1,1024]。请用32个unsigned int类型来记录着1024个任务是否已经完成。初始状态都是未完成。 
+输入两个参数，都是任务ID，需要设置第一个ID的任务为已经完成；并检查第二个ID的任务是否已经完成。 
+输出一个参数，如果第二个ID的任务已经完成输出1，如果未完成输出0。如果第一或第二个ID不在[1,1024]范围，则输出-1。
+思路：使用二进制存储任务的完成状态，然后将每32个任务转换成一个unsigned int型的数据，存入32个就能表示1024个任务的完成情况
+*/
+int mission_status(unsigned int id1,unsigned int id2){
+if(id1<1||id1>1024||id2<1||id2>1024){
+    return -1;
+}
+bitset<1024> b1;
+string s=b1.to_string();
+unsigned int a[32];
+for(auto i=0,j=0;j<b1.size();j+=32,i++){
+bitset<32> b(s,j,31);
+a[i]=static_cast<unsigned int>(b.to_ulong()); 
+}
+b1[id1]=1;
+int x=id1/32,y=id1%32-1;
+bitset<32> b2(s,x*32,32);
+b2[y]=1;
+a[x]=static_cast<unsigned int>(b2.to_ulong());
+// if(b1[id2]==1){  
+// return 1;}
+// else{
+// return 0;}
+cout<<a[x]<<endl;
+return 1;
+}
+
+/*
+有一个X*Y的网格，小团要在此网格上从左上角到右下角，只能走格点且只能向右或向下走。
+请设计一个算法，计算小团有多少种走法。给定两个正整数int x,int y，请返回小团的走法数目。
+思路：有几行几列组成且只能向两个方向移动，因此本题可以转换为求x个相同数和y个相同数求排列问题，
+使用STL中的next_permutation函数即可
+*/
+int num_of_trail(int x,int y){
+ vector<int> v1;
+    v1.insert(v1.end(),x,0);
+    v1.insert(v1.end(),y,1);
+    int i=0;
+    // auto xx=next_permutation(v1.begin(),v1.end());
+    do{
+        i++;
+    }while(next_permutation(v1.begin(),v1.end()));
+    return i;  
+}
 int main(){
-    cout.setf(ios::fixed);
-    cout<<setprecision(2)<<sum_of_array()<<endl; 
+   cout<<num_of_trail(3,2); 
    
     return 0;
 }
