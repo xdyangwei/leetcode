@@ -2,6 +2,8 @@
 #include<vector>
 #include<map>
 #include<algorithm>
+#include<cmath>
+#include <iomanip>
 using namespace std;
 //问题：设有n个正整数，将他们连接成一排，组成一个最大的多位整数。
 //如:n=3时，3个整数13,312,343,连成的最大整数为34331213。
@@ -145,13 +147,54 @@ vector<vector<int>> phone_number_transform(){
     }
     return sum;
 }
+//春天是鲜花的季节，水仙花就是其中最迷人的代表，数学上有个水仙花数，他是这样定义的：
+// “水仙花数”是指一个三位数，它的各位数字的立方和等于其本身，比如：153=1^3+5^3+3^3。 现在要求输出所有在m和n范围内的水仙花数。
+//思路：遍历这个范围内的每个数，算出每个数的每个位上的值，然后将其三次方相加与原数进行比较，相同则为水仙花数，不相同则不是
+vector<int> shuixianhua(){
+    int x,y;
+    vector<int> v;
+    cin>>x>>y;
+    int min,max;
+    if(x>=y){
+        min=y;max=x;
+    }else{
+        min=x;max=y;
+    }
+    for(int i=min;i<=max;i++){
+        int sum=0;
+        int z=i;
+        int num;
+        while(z>=1){
+            num=z%10;
+            auto zz=pow(num,3);
+            sum=sum+zz;   
+            z=(z-num)/10;
+        }
+        
+        if(sum==i){
+            v.push_back(i);
+        }   
+    }
+    cout<<v.size()<<endl;
+    return v;
+}
+//数列的第一项为n，以后各项为前一项的平方根，求数列的前m项的和
+//循环相加即可
+double sum_of_array(){
+double x,y;//x的数据类型一定要为double，因为之后会对它进行平方根操作
+    cin>>x>>y;
+    double sum=0;
+    sum+=x;
+    while(--y){
+        sum+=sqrt(x);
+        x=sqrt(x);
+    }
+    return sum;
+    
+}
 int main(){
-    auto s=phone_number_transform();
-    for(auto ss:s){
-    for(auto sss:ss){
-        cout<<sss;
-    }
-    cout<<endl;
-    }
+    cout.setf(ios::fixed);
+    cout<<setprecision(2)<<sum_of_array()<<endl; 
+   
     return 0;
 }
