@@ -241,8 +241,28 @@ int num_of_trail(int x,int y){
     }while(next_permutation(v1.begin(),v1.end()));
     return i;  
 }
+/*
+有一片1000*1000的草地，小易初始站在(1,1)(最左上角的位置)。小易在每一秒会横向或者纵向移动到相邻的草地上吃草(小易不会走出边界)。
+大反派超超想去捕捉可爱的小易，他手里有n个陷阱。第i个陷阱被安置在横坐标为xi ，纵坐标为yi 的位置上，
+小易一旦走入一个陷阱，将会被超超捕捉。你为了去解救小易，需要知道小易最少多少秒可能会走入一个陷阱，从而提前解救小易。
+思路：找到最近的一个陷阱点，然后与出发点坐标相减即可得到距离
+*/
+int time_of_caught(int n){
+    
+    int x[n],y[n],i;
+   for(int i=0;i<n;i++){
+        cin>>x[i];}
+    for(int i=0;i<n;i++)
+        cin>>y[i];
+    int sum=x[0]+y[0];
+    for(int j=1;j<n;j++){
+        if(x[j]+y[j]<sum)
+        sum=x[j]+y[j];
+    }
+    return sum-2;
+}
 int main(){
-   cout<<num_of_trail(3,2); 
+   cout<<time_of_caught(3); 
    
     return 0;
 }
