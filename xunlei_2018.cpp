@@ -47,6 +47,8 @@ void int_sum(){
     cin>>n>>m;
     cout<<count(n,m);
 }
+
+
 int main(){
     int_sum();
     
