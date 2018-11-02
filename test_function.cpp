@@ -9,11 +9,8 @@ bool compare(int a,int b){
     return a>b?true:false;
 }
 int main(){
-   char *str = "Thunder Network";
-vector<int> v;
-auto x=v.begin();
-vector<int>::iterator xx=x;
-printf("%s\n", str);
-   
+int a[3][4]={{0},{1},{2}};
+auto *p=a;
+cout<<*(p+1)[0];
     return 0;
 }
