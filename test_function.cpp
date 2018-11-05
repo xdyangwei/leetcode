@@ -9,8 +9,7 @@ bool compare(int a,int b){
     return a>b?true:false;
 }
 int main(){
-int a[3][4]={{0},{1},{2}};
-auto *p=a;
-cout<<*(p+1)[0];
+    auto a = int(3.14 + 3);
+    cout << a << endl;
     return 0;
 }
