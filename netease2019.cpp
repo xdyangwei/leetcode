@@ -92,7 +92,91 @@ int n,k;
     //输出两部分分数总和
     cout<<maxSum+baseSum;
     }
-    
+
+
+void third(){
+    int n;
+	std::cin >> n;
+	std::vector<int> v;
+	int x;
+	for (int i = 0; i < n; i++) {
+		std::cin >> x;
+		v.push_back(x);
+	}
+	int m;
+	std::cin >> m;
+	std::vector<int> v2, v3;
+	for (int i = 0; i < m; i++) {
+		std::cin >> x;
+		v2.push_back(x);
+	}
+	for (size_t i = 0; i < n; i++)
+	{
+		if (i > 0)
+			v3.push_back(v3[i - 1] + v[i]);
+		else
+		{
+			v3.push_back(v[i]);
+		}
+	}
+	for (auto xx : v2) {	
+		if (v3[0] >= xx) {
+			std::cout << 1 << std::endl;
+			continue;
+		}
+		int left = 0;
+		int right = n-1 ;
+		while (right - left > 1) {
+			int middle = (left + right) / 2;
+			if (v3[middle] < xx) {
+				left = middle;
+			}
+			else {
+				right = middle;
+			}
+		}
+		std::cout << right+1 << std::endl;
+	}
+}
+int biggest(initializer_list<int> a) {
+	int max = 0;
+	for (auto xx : a) {
+		if (xx > max)
+			max = xx;
+	}
+	return max;
+}
+
+ void fifth(){
+int a, b, c;
+	cin >> a >> b >> c;
+	int sum=0;
+	if (a == 1) {
+		if (c == 1)
+			sum = a + b + c;
+		else
+		{
+			sum = (a + b)*c;
+		}
+	}
+	else if (b == 1&&c!=1) {
+		auto x = biggest({ a, b, c });
+		if (x == a)
+			sum = a * (b + c);
+		else
+		{
+			sum = c * (a + b);
+		}
+	}
+	else if (c == 1) {
+		sum = a * (b + c);
+	}
+	else
+	{
+		sum = a * b*c;
+	}
+	cout << sum << endl;
+ }
 
 int main()
 {
