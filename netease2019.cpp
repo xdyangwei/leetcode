@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include<unordered_map>
 using namespace std;
 //using vs
 void first()
@@ -178,6 +179,71 @@ int a, b, c;
 	cout << sum << endl;
  }
 
+unordered_multimap<int, int> sort_map(pair<int,int> a,pair<int,int> b,pair<int,int> c) {
+	auto a_length = a.first*a.first + a.second*a.second;
+	auto b_length = b.first*b.first + b.second*b.second;
+	auto c_length = c.first*c.first + c.second*c.second;
+	int max,flag=0;
+	unordered_multimap<int, int> m;
+	if (a_length >= b_length) {
+		max = a_length;
+		flag = 1;
+	}
+	else {
+		max = b_length;
+		flag = 2;
+	}
+	if (max < c_length) {
+		max = c_length;
+		flag = 3;
+	}
+	if (flag == 1) {
+		m.insert(a); m.insert(b); m.insert(c);
+	}
+	else if(flag==2)
+	{
+		m.insert(b); m.insert(a); m.insert(a);
+	}
+	else
+	{
+		m.insert(c); m.insert(a); m.insert(b);
+	}
+	return m;
+}
+
+bool is_square(pair<int,int> a, pair<int, int> b, pair<int, int> c, pair<int, int> d) {
+	auto ab = make_pair<int, int>(b.first-a.first,b.second-a.second);
+	auto ac = make_pair<int, int>(c.first - a.first, c.second - a.second);
+	auto ad = make_pair<int, int>(d.first - a.first, d.second - a.second);
+	/*auto ab_length = ab.first*ab.first + ab.second*ab.second;
+	auto ac_length = ac.first*ac.first + ac.second*ac.second;
+	auto ad_length = ad.first*ad.first + ad.second*ad.second;*/
+	auto m = sort_map(ab, ac, ad);
+	auto diagonal = *(m.begin());
+	auto x = ++m.begin();
+	auto edge1 = *(x);
+	auto edge2 = *(++x);
+	auto diagonal_length = diagonal.first*diagonal.first + diagonal.second*diagonal.second;
+	auto edge1_length = edge1.first*edge1.first + edge1.second*edge1.second;
+	auto edge2_length = edge2.first*edge2.first + edge2.second*edge2.second;
+	if ((diagonal.first == edge1.first + edge2.first) && (diagonal.second == edge1.second + edge2.second)) {
+		if (edge1_length == edge2_length && edge1.first*edge2.first + edge1.second*edge2.second == 0)
+			return true;
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+	
+}
+
+void fourth(){
+    
+}
 int main()
 {
     second();
