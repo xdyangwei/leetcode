@@ -36,9 +36,22 @@ int step_to_fibonacci(int x) {
 	auto zzz = iter - 1;
 	return (*iter - x) <= (x-*(zzz) ) ? (*iter - x) : (x-*(zzz) );
 }
+int step_to_fibonacci2(int x) {
+	int  y = x,n=x;
+	auto v = fibonacci_array(1000000);
+	while (true) {
+		if (find(v.begin(), v.end(), n) != v.end()||find(v.begin(),v.end(),y)!=v.end())
+			break;
+		else {
+			n = n + 1;
+			y = y - 1;
+		}
+	}
+	return (n - x) <= (x - y) ? n - x : x - y;
+}
 int main() {
 	int x;
 	cin >> x;
-	cout << step_to_fibonacci(x) << endl;
+	cout << step_to_fibonacci2(x) << endl;
 
 }
