@@ -65,6 +65,6 @@ void delete_substr() {
 }
 
 int main() {
-	recursive_sum(5, 5);
+	
 	
 }
