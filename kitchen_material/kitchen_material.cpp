@@ -9,6 +9,7 @@
 #include<regex>
 #include<map>
 using namespace std;
+int a[1000][1000] = { 0 };
 int count_of_material() {
 	string s;
 	set<string> materials;
@@ -151,7 +152,50 @@ void prime_number_sum() {
 	}
 	cout << m.size() << endl;
 }
+
+void not_two() {
+	int w, h, res = 0;
+	cin >> w >> h;
+	for (int i = 0; i < w; i++)
+	{
+		for (int j = 0; j < h; j++)
+		{
+			if (a[i][j] == 0)
+			{
+				res++;
+				if ((i + 2) < w) a[i + 2][j] = -1;
+				if ((j + 2) < h) a[i][j + 2] = -1;
+			}
+		}
+	}
+	cout << res;
+}
+bool is_palindrome_string(string s) {//ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎª»ØÎÄ×Ö·û´®
+	string s1;
+	reverse_copy(s.begin(), s.end(), back_inserter(s1));
+	if (s1 == s)
+		return true;
+	else {
+		return false;
+	}
+}
+void count_palindrome_string() {
+	string s1, s2,s3;
+	cin >> s1 >> s2;
+	int count = 0;
+	s3=s1;
+	for (auto i = s1.begin(); i !=s1.end(); i++) {
+		s3.insert(i-s1.begin(), s2);
+		if (is_palindrome_string(s3))
+			count++;
+		s3 = s1;
+	}
+	s3.insert(s3.end(), s2.begin(), s2.end());
+	if (is_palindrome_string(s3))
+		count++;
+	cout << count << endl;
+	//cout << is_palindrome_string(s1) << endl;
+}
 int main() {
-	prime_number_sum();
-	
+	count_palindrome_string();
 }
