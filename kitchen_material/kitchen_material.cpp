@@ -180,10 +180,10 @@ bool is_palindrome_string(string s) {//判断字符串是否为回文字符串
 	}
 }
 void count_palindrome_string() {
-	string s1, s2,s3;
+	string s1, s2;
 	cin >> s1 >> s2;
+	string s3; s3 = s1;
 	int count = 0;
-	s3=s1;
 	for (auto i = s1.begin(); i !=s1.end(); i++) {
 		s3.insert(i-s1.begin(), s2);
 		if (is_palindrome_string(s3))
@@ -196,6 +196,37 @@ void count_palindrome_string() {
 	cout << count << endl;
 	//cout << is_palindrome_string(s1) << endl;
 }
+
+void construct_queue() {//根据输出构造原始队列
+	int n;
+	cin >> n;
+	vector<int> v1;
+	while (n-- > 0) {
+		int x;
+		cin >> x;
+		v1.push_back(x);
+	}
+	for (auto i = 0; i < v1.size(); i++) {
+		auto size = v1[i];
+		vector<int> v2;
+		if (size == 1) {
+			cout << 1<<endl;
+		}
+		else {
+			v2.push_back(size);
+			v2.push_back(size - 1);
+			int ii = 1; size -= 1;
+			while (--size > 0) {
+				v2.insert(v2.begin(), *(v2.end() - 1));
+				v2.pop_back();
+				v2.insert(v2.begin() + 1, size);
+			}
+			for (auto xx : v2)
+				cout << xx << " ";
+			cout << endl;
+		}
+	}
+}
 int main() {
-	count_palindrome_string();
+	construct_queue();
 }
