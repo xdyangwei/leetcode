@@ -170,7 +170,7 @@ void not_two() {
 	}
 	cout << res;
 }
-bool is_palindrome_string(string s) {//ÅÐ¶Ï×Ö·û´®ÊÇ·ñÎª»ØÎÄ×Ö·û´®
+bool is_palindrome_string(string s) {//ï¿½Ð¶ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	string s1;
 	reverse_copy(s.begin(), s.end(), back_inserter(s1));
 	if (s1 == s)
@@ -197,7 +197,7 @@ void count_palindrome_string() {
 	//cout << is_palindrome_string(s1) << endl;
 }
 
-void construct_queue() {//¸ù¾ÝÊä³ö¹¹ÔìÔ­Ê¼¶ÓÁÐ
+void construct_queue() {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½
 	int n;
 	cin >> n;
 	vector<int> v1;
@@ -230,11 +230,14 @@ void construct_queue() {//¸ù¾ÝÊä³ö¹¹ÔìÔ­Ê¼¶ÓÁÐ
 void filename_extension() {
 	string s;
 	cin >> s;
-	regex r("\.\\w+\\b");
-	sregex_iterator it(s.begin(),s.end(),r);
-	sregex_iterator end;
-	for (; it != end; it++)
-		cout << it->str() << " ";
+	regex r("\\.(\\w+\\b)");
+	smatch result;
+	if(regex_search(s.cbegin(),s.cend(),result,r))
+	cout<<result[1]<<endl;
+	else{
+		cout<<"null"<<endl;
+	}
+
 }
 int main() {
 	filename_extension();
