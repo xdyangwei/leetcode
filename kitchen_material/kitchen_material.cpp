@@ -227,6 +227,15 @@ void construct_queue() {//根据输出构造原始队列
 		}
 	}
 }
+void filename_extension() {
+	string s;
+	cin >> s;
+	regex r("\.\\w+\\b");
+	sregex_iterator it(s.begin(),s.end(),r);
+	sregex_iterator end;
+	for (; it != end; it++)
+		cout << it->str() << " ";
+}
 int main() {
-	construct_queue();
+	filename_extension();
 }
