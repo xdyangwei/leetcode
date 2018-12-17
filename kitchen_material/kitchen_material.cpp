@@ -271,6 +271,32 @@ void calculate_candy() {
 		cout << "No";
 	}
 }
+
+void toutiao_hire() {
+	int n;
+	cin >> n;
+	vector<int> v1;
+	while (n-- > 0) {
+		int x;
+		cin >> x;
+		v1.push_back(x);
+	}
+	sort(v1.begin(),v1.end());
+	int sum = 0;
+	auto x = v1.begin();
+	auto y = x;
+	while (x!=v1.end()) {
+		y = unique(x, v1.end(), [](int a, int b) {return (b - a > 10) ? true : false; });
+		auto z = y - x;
+		if ((z + 1) % 3 == 0) {
+			sum += 1;
+		}
+		else if ((z + 2) % 3 == 0)
+			sum += 2;
+		x = y;
+	}
+	cout << sum << endl;
+}
 int main() {
-	calculate_candy();
+	toutiao_hire();
 }
