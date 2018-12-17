@@ -170,7 +170,7 @@ void not_two() {
 	}
 	cout << res;
 }
-bool is_palindrome_string(string s) {//�ж��ַ����Ƿ�Ϊ�����ַ���
+bool is_palindrome_string(string s) {
 	string s1;
 	reverse_copy(s.begin(), s.end(), back_inserter(s1));
 	if (s1 == s)
@@ -197,7 +197,7 @@ void count_palindrome_string() {
 	//cout << is_palindrome_string(s1) << endl;
 }
 
-void construct_queue() {//�����������ԭʼ����
+void construct_queue() {
 	int n;
 	cin >> n;
 	vector<int> v1;
@@ -237,8 +237,40 @@ void filename_extension() {
 	else{
 		cout<<"null"<<endl;
 	}
+}
 
+void treasure_map() {
+	string s1, s2;
+	cin >> s1 >> s2;
+	string pattern = "";
+	for (auto x : s2) {
+		string s(1,x);
+		pattern += "\.*" + s;
+	}
+	pattern += "\.*";
+	regex r(pattern);
+	smatch result;
+	if (regex_search(s1.cbegin(), s1.cend(), result, r))
+		cout << "Yes" << endl;
+	else
+	{
+		cout << "No" << endl;
+	}
+}
+
+void calculate_candy() {
+	int a, b, c, d;
+	cin >> a >> b >> c >> d;
+	int A = (a + c )/ 2;
+	int B = (b + d) / 2;
+	int C = d - B;
+	if ((A - B == a) && (B - C == b) && (A + B == c) && (B + C == d))
+		cout << A << " " << B << " " << C;
+	else
+	{
+		cout << "No";
+	}
 }
 int main() {
-	filename_extension();
+	calculate_candy();
 }
