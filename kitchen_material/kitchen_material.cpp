@@ -297,6 +297,133 @@ void toutiao_hire() {
 	}
 	cout << sum << endl;
 }
+
+int judge_array(vector<int> v) {
+	int sum = 0;
+	for (auto it = v.begin(); it != v.end()-1; it++) {
+		for (auto ii = it + 1; ii != v.end(); ii++) {
+			if (*ii > *it)
+				sum++;
+		}
+	}
+	return sum;
+}
+void reset_array() {
+	int n, k;
+	cin >> n >> k;
+	vector<int> v1;
+	auto nn = n;
+	while (nn-- > 0) {
+		int x;
+		cin >> x;
+		v1.push_back(x);
+	}
+	/*auto count_zero = count(v1.begin(), v1.end(), 0);*/
+	set<int> v2;
+	auto nnn = 0;
+	while (nnn++ < n)
+		v2.insert(nnn);
+	for (auto xx : v1) {
+		v2.erase(xx);
+	}
+	vector<int> v3(v2.begin(), v2.end());
+	sort(v3.begin(), v3.end());
+	int sum=0;
+	auto ii = 0;
+	auto v4 = v1;
+	for (auto &xx : v4) {
+		if (xx == 0)
+			xx = v3[ii++];
+	}
+	auto zz = judge_array(v4);
+	if (zz == k)
+		sum++;
+	v4 = v1;
+	while (next_permutation(v3.begin(), v3.end())) {
+		auto iii = 0;
+		for (auto &xx : v4) {
+			if (xx == 0)
+				xx = v3[iii++];
+		}
+		auto z = judge_array(v4);
+		if (z == k)
+			sum++;
+		v4 = v1;
+	}
+	cout << sum;
+}
+
+void count_end_zero() {
+	int n, counter = 0;
+	cin >> n;
+	while (n /= 5)
+	{
+		counter += n;
+	}
+	cout << counter;
+}
+
+int count_of_radix(int a,int n) {
+	vector<int> v;
+	while (a) {
+		auto x = a % n;
+		v.push_back(x);
+		a = a / n;
+	}
+	int sum = 0;
+	for (auto xx : v)
+		sum += xx;
+	return sum;
+}
+
+int greatest_common_divisr(int a,int b) {
+	int max=1,min;
+	if (a >= b) {
+		min = b;
+	}
+	else
+	{
+		min = a;
+	}
+	for (int i = 1; i <=min  ; i++) {
+		if (a%i == 0 && b%i == 0) {
+			if (i > max)
+				max = i;
+		}
+	}
+	return max;
+}
+void average_radixs() {
+	int x;
+	while (cin >> x) {
+		int sum=0;
+		for (auto i = 2; i < x; i++)
+			sum += count_of_radix(x, i);
+		cout << (sum/greatest_common_divisr(sum,x-2)) <<"/"<<((x-2)/greatest_common_divisr(sum,x-2))<< endl;
+	}
+}
+
+void encode() {
+	string s;
+	cin >> s;
+	int index = 0;
+	switch (s.size())
+	{
+	case 1:
+		index = (s[0] - 'a')*(25*25*25+25*25+25+1);
+		break;
+	case 2:
+		index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1)+(s[1]-'a')*(25*25+25+1);
+		break;
+	case 3:
+		index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1)+(s[2]-'a')*(25+1);
+		break;
+	case 4:
+		index= (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1) + (s[2] - 'a')*(25 + 1); + s[3] - 'a';
+		break;
+	}
+	cout << index;
+}
 int main() {
-	toutiao_hire();
+	encode();
 }
