@@ -420,10 +420,10 @@ void encode() {
 			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1);
 			break;
 		case 2:
-			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1)+1;
+			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1) +1;
 			break;
 		case 3:
-			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1) +1+ (s[2] - 'a')*(25 + 1)+1;
+			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1) + (s[2] - 'a')*(25 + 1) +2;
 			break;
 		case 4:
 			index = (s[0] - 'a')*(25 * 25 * 25 + 25 * 25 + 25 + 1) + (s[1] - 'a')*(25 * 25 + 25 + 1) + (s[2] - 'a')*(25 + 1)+s[3] - 'a'+3;
@@ -432,6 +432,23 @@ void encode() {
 	}
 	cout << index;
 }
+
+void longest_number_str() {
+	string s;
+	cin >> s;
+	regex r("\\d+");
+	smatch result;
+	pair<int, string> p1 = {make_pair(0,"")};
+	auto it = s.cbegin();
+	while (regex_search(it, s.cend(), result, r)) {
+		auto x = static_cast<string>(result[0]).size();
+		if (x > p1.first)
+			p1.second = string(result[0].first,result[0].second);
+		it = result[0].second;
+	}
+	cout << p1.second << endl;
+}
+
 int main() {
-	encode();
+	longest_number_str();
 }
