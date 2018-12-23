@@ -34,6 +34,16 @@ int count_of_steps_bottle_to_top(int n) {
 		v[i] = v[i - 1] + v[i - 2];
 	return v[n];
 }
+
+void longest_common_squence(vector<int> v) {
+
+}
+
+vector<int> length_of_lcs(int n,vector<vector<int>> v1) {
+	if (!v1[n].empty())
+		return v1[n];
+
+}
 int main() {
 	cout << count_of_steps_bottle_to_top(4);
 	getchar();
