@@ -116,17 +116,68 @@ long combine_money(int n) {
 	return d[N];
 	
 }
-int main() {
-	int N;
-	char a[6] = { 1,5,10,20,50,100 };
-	cin >> N;
-	vector<long long> d(N + 1, 0);
-	d[0] = 1;
-	for (int i = 0; i < 6; i++)
-		for (int j = 1; j <= N; j++)
-			if (j >= a[i])
-				d[j] = d[j] + d[j - a[i]];
 
-	cout << d[N] << endl;
+int lpd(string s, vector<vector<int>> &v, int i, int j);
+
+string longestPalindrome(string s) {
+	vector<vector<int>> v;
+	for (int i = 0; i < s.size(); i++) {
+		vector<int> v1;
+		for (int j = 0; j < s.size(); j++) {
+			if (i == j)
+				v1.push_back(1);
+			else if (j - i == 1) {
+				if (s[i] == s[j])
+					v1.push_back(1);
+				else
+				{
+					v1.push_back(0);
+				}
+			}
+			else
+			{
+				v1.push_back(0);
+			}
+		}
+		v.push_back(v1);
+	}
+	lpd(s, v, 0, s.size()-1);
+	for (auto x : v)
+	{
+		for (auto xx : x)
+			cout << xx << " ";
+		cout << endl;
+	}
+	pair<int, int> p(0,0);
+	for (int i = 0; i < s.size(); i++) {
+		for(int j=i;j<s.size();j++)
+			if (v[i][j] == 1) {
+				if (j - i > p.second - p.first) {
+					p.first = i;
+					p.second = j;
+				}
+			}
+	}
+	string ss;
+	for (int i = p.first; i <= p.second; i++)
+		ss += s[i];
+	return ss;
+}
+int lpd(string s, vector<vector<int>> &v, int i, int j) {
+	if (i == j) {
+		v[i][j] = 1;
+		return 0;
+	}
+	else if (i < j) {
+		v[i][j] = 0;
+		return 0;
+	}
+	else {
+		v[i][j] = (v[i + 1][j - 1]) && (s[i]==s[j]);
+		lpd(s, v, i + 1, j - 1);
+	}
+}
+int main() {
+	cout<<longestPalindrome("caba");
 	system("pause");
 }
