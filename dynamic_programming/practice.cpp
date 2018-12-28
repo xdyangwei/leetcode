@@ -121,6 +121,8 @@ long combine_money(int n) {
 
 
 string longestPalindrome(string s) {
+	if (s.empty())
+		return "";
 	int max_len = 0,k,j,start;
 	for (int i = 0; i < s.size()-1;i++) {
 		while (s[i] == s[i + 1]) {
@@ -249,10 +251,56 @@ int numDecodings(string s) {
 	return dp[n];
 }
 
+int decode(string s,vector<int> &v,int n) {
+	if (v[n] != 0)
+		return v[n];
+	else {
+		if (s[n - 1] - '0' > 0 && s[n - 1] - '0' < 9) {
+			v[n] += decode(s, v, n - 1);
+		}
+		if ((s[n - 2]-'0') * 10 + s[n - 1] - '0' > 0 && (s[n - 2]-'0') * 10 + s[n - 1] - '0' <= 26) {
+			v[n] += decode(s, v, n - 2);
+		}
+		return v[n];
+	}
+}
+
+int numDecodings2(string s) {
+	if (s.empty())
+		return 0;
+	vector<int> v(s.size()+1,0);
+	v[0] = 1;
+	if (s[0] == '0')
+		v[1] = 0;
+	else
+	{
+		v[1] = 1;
+	}
+	decode(s, v, s.size());
+	return v[s.size()];
+}
+
+string longestPalindrome2(string s) {
+	int start, max_len=0;
+	for (int i = 0; i < s.size(); i++) {
+		int k = i, j = i;
+		while (s[i] == s[i + 1])
+			i++;
+		k = i;
+		while (j > 0 && k < s.size() - 1 && s[j - 1] == s[k + 1])
+		{
+			j--; k++;
+		}
+		if (k - j + 1 > max_len) {
+			max_len = k - j + 1; start = j;
+		}
+	}
+	return s.substr(start, max_len);
+}
 
 int main() {
 	vector<vector<int>> v(2, vector<int>({0,0}));
 	v[0] = { 0,1 }; v[1] = { 1,0 }; 
-	cout << numDecodings("230");
+	cout << longestPalindrome2("aaaa");
 	system("pause");
 }
