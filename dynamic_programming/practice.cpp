@@ -298,9 +298,50 @@ string longestPalindrome2(string s) {
 	return s.substr(start, max_len);
 }
 
+int minimumTotal(vector<vector<int>>& triangle) {
+	auto n = triangle.size();	
+	vector<vector<int>> v(n, vector<int>(n,0));
+	v[0][0] = triangle[0][0];
+	for (int i = 1; i < n; i++) {
+		for (int j = 0; j <= i; j++) {
+			if(j>=1&&j<i)
+			v[i][j] = min(v[i - 1][j], v[i - 1][j - 1]) + triangle[i][j];
+			else if (j == i) {
+				v[i][j] = v[i - 1][j - 1] + triangle[i][j];
+			}
+			else {
+				v[i][j] = v[i - 1][j] + triangle[i][j];
+			}
+		}
+	}
+	int sum = v[n-1][0],i=0;
+	for (auto x : v[n - 1]) {
+		sum = min(sum, x);
+	}
+	return sum;
+}
+
+bool wordBreak(string s, vector<string>& wordDict) {
+	if (wordDict.empty())
+		return false;
+	vector<bool> v(s.size() + 1, false);
+	v[0] = true;
+	for(int i=0;i<=s.size();i++)
+		for (int j = i - 1; j >= 0; j--) {
+			if (v[j]) {
+				string ss(s.substr(j,i-j));
+				if (find(wordDict.begin(), wordDict.end(), ss) != wordDict.end()) {
+					v[i] = true;
+					break;
+				}
+			}
+		}
+	return v[s.size()];
+}
+
 int main() {
-	vector<vector<int>> v(2, vector<int>({0,0}));
-	v[0] = { 0,1 }; v[1] = { 1,0 }; 
-	cout << longestPalindrome2("aaaa");
+	vector<vector<int>> v(4, vector<int>());
+	v[0] = { 2 }; v[1] = { 3,4 }; v[2] = { 6,5,7}; v[3] = {4,1,8,3};
+	cout << minimumTotal(v);
 	system("pause");
 }
