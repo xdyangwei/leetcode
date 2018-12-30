@@ -339,9 +339,31 @@ bool wordBreak(string s, vector<string>& wordDict) {
 	return v[s.size()];
 }
 
+int maxProduct(vector<int>& nums) {
+	if (nums.empty())
+		return 0;
+	auto n = nums.size();
+	vector<int> v(n, 0);
+	vector<int> v1(n, 0);
+	v[0] = nums[0]; v1[0] = nums[0];
+	for (int i = 1; i < n; i++) {
+		if (nums[i] < 0) {
+			v[i] = max(v1[i - 1] * nums[i], nums[i]);
+			v1[i] = min(v[i - 1] * nums[i], nums[i]);
+		}
+		else {
+			v[i] = max(v[i - 1] * nums[i], nums[i]);
+			v1[i] = min(v1[i - 1] * nums[i], nums[i]);
+		}
+	}
+	int max_product = v[0];
+	for (auto x : v)
+		max_product = max(max_product, x);
+	return max_product;
+}
+
 int main() {
-	vector<vector<int>> v(4, vector<int>());
-	v[0] = { 2 }; v[1] = { 3,4 }; v[2] = { 6,5,7}; v[3] = {4,1,8,3};
-	cout << minimumTotal(v);
+	vector<int> v{2,0};
+	cout << maxProduct(v);
 	system("pause");
 }
