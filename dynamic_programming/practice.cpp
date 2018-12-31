@@ -362,8 +362,42 @@ int maxProduct(vector<int>& nums) {
 	return max_product;
 }
 
+int rob(vector<int>& nums) {
+	if (nums.empty())
+		return 0;
+	auto n = nums.size();
+	if (n == 1)
+		return nums[0];
+	if (n == 2)
+		return max(nums[0], nums[1]);
+	if (n == 3)
+		return max(nums[0]+nums[2],nums[1]);
+	vector<int> v(n,0);
+	v[0] = nums[0]; v[1] = nums[1]; v[2] = nums[0] + nums[2];
+	for (int i = 3; i < n; i++) {
+		v[i] = max(v[i-3]+nums[i],v[i-2]+nums[i]);
+	}
+	int max_len = 0;
+	for (auto xx : v)
+		max_len = max(xx, max_len);
+	return max_len;
+}
+
+int rob_circle(vector<int>& nums) {
+	if (nums.empty())
+		return 0;
+	if (nums.size() == 1)
+		return nums[0];
+	vector<int> v(nums.begin() + 1, nums.end());
+	auto n1 = rob(v);
+	vector<int> v1(nums.begin(), nums.end() - 1);
+	auto n2 = rob(v1);
+	auto max_len = max(n1, n2);
+	return max_len;
+}
+
 int main() {
-	vector<int> v{2,0};
-	cout << maxProduct(v);
+	vector<int> v{1,2,3,1};
+	cout << rob_circle(v);
 	system("pause");
 }
