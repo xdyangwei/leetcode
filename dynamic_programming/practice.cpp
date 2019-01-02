@@ -396,8 +396,60 @@ int rob_circle(vector<int>& nums) {
 	return max_len;
 }
 
+int maximalSquare(vector<vector<char>>& matrix) {
+	if (matrix.empty())
+		return 0;
+	auto n = matrix.size();
+	auto m = matrix[0].size();
+	vector<vector<int>> v(n,vector<int>(m,0));
+	for (int i = 0; i < n; i++)
+		v[i][0] = matrix[i][0] - '0';
+	for (int i = 0; i < m; i++)
+		v[0][i] = matrix[0][i] - '0';
+	for (int i = 1; i < n; i++) {
+		for (int j = 1; j < m; j++) {
+			if (matrix[i][j] == '1') {
+				if (v[i - 1][j - 1]!=0) {
+					auto x = sqrt(v[i - 1][j - 1]); 
+					auto y = x;
+					int flag = 1;
+					while (x) {
+						if (matrix[i - x][j] == '0' || matrix[i][j - x] == '0')
+							flag = 0;
+						x -= 1;
+					}
+					if (flag == 1) {
+						v[i][j] = pow(sqrt(v[i - 1][j - 1]) + 1, 2);
+					}
+					else
+					{
+						int z = 1;
+						while (z != y) {
+							if (matrix[i - z][j] == '1'&&matrix[i][j - z] == '1')
+								z++;
+							else {
+								break;
+							}
+						}
+						v[i][j] = pow(z, 2);
+					}
+				}
+				else {
+					v[i][j] = 1;
+				}
+			}
+		}
+	}
+	int max_size = 0;
+	for (auto x : v)
+		for (auto xx : x)
+			max_size = max(max_size, xx);
+	return max_size;
+}
 int main() {
-	vector<int> v{1,2,3,1};
-	cout << rob_circle(v);
+	vector<vector<char>> v(5,vector<char>());
+	vector<vector<char>> v2(1, vector<char>(1,'1'));
+	v[0] = { '0','0','0','1' }; v[1] = { '1','1','0','1' }; v[2] = { '1','1','1','1' }; v[3] = { '0','1','1','1' }; v[4] = {'0','1','1','1'};
+	cout << maximalSquare(v);
 	system("pause");
 }
