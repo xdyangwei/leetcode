@@ -17,11 +17,7 @@ void pointer_plus(int *&(p))
 }
 int main()
 {
-    for(int x=1;x<=5;x++){
-        auto sum=1;
-        for(int j=x;j>0;j--)
-        sum*=j;
-        cout<<sum<<endl;
-    }
+    int i=0x12345678;
+    cout<<"good"<<endl;
     return 0;
 }
