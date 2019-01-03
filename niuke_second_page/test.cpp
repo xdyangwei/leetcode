@@ -137,7 +137,44 @@ void transfer() {
 		cout << xx;
 }
 
+void deliver_apple() {
+	int n; deque<int> v;
+	cin >> n;
+	int sum = 0;
+	while (n--) {
+		int x; cin >> x; v.push_back(x); sum += x;
+	}
+	auto average = sum / n;
+	sort(v.begin(), v.end());
+	auto it = find(v.begin(), v.end(), average);
+	auto co = count(v.begin(), v.end(), average);
+	v.erase(it, it + co);
+	int count = 0;
+	while (!v.empty()) {
+		auto size = v.size();
+		if ((average - v[0]) % 2 != 0 && (v[size - 1] - average) % 2 != 0) {
+			break;
+		}
+		if (size == 1 && v[0] != average)
+			break;
+		if (size == 1 && v[0] == average)
+			v.pop_back();
+		count++;
+		v[0] += 2; v[size - 1] -= 2;
+		if (v[0] == average)
+			v.pop_front();
+		if (v[size - 1] == average)
+			v.pop_back();
+	}
+	if (v.empty())
+		cout << count << endl;
+	else
+	{
+		cout << -1 << endl;
+	}
+}
+
 int main() {
-	transfer();
+	deliver_apple();
 	system("pause");
 }
