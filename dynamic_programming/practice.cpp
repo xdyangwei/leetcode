@@ -446,10 +446,44 @@ int maximalSquare(vector<vector<char>>& matrix) {
 			max_size = max(max_size, xx);
 	return max_size;
 }
+
+void normal_input(vector<int> &v) {
+	int n;
+	cin >> n;
+	while (n--) {
+		int x;
+		cin >> x;
+		v.push_back(x);
+	}
+}
+
+void geohash_encode() {
+	int n;
+	cin >> n;
+	vector<int> v;
+	int x = 1;
+	int left = -90;
+	int right = 90;
+	while (x++ <= 6) {
+		auto mid = (left + right) / 2;
+		if (n < mid) {
+			v.push_back(0);
+			right = mid;
+		}
+		else{
+			v.push_back(1);
+			left = mid;
+		}
+		/*else {
+			v.push_back(1);
+			break;
+		}*/
+	}
+	for (auto xx : v)
+		cout << xx;
+}
+
 int main() {
-	vector<vector<char>> v(5,vector<char>());
-	vector<vector<char>> v2(1, vector<char>(1,'1'));
-	v[0] = { '0','0','0','1' }; v[1] = { '1','1','0','1' }; v[2] = { '1','1','1','1' }; v[3] = { '0','1','1','1' }; v[4] = {'0','1','1','1'};
-	cout << maximalSquare(v);
+	geohash_encode();
 	system("pause");
 }
