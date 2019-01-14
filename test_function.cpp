@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <bitset>
+#include<memory>
 using namespace std;
 bool compare(int a, int b)
 {
@@ -41,6 +42,16 @@ class animal
     {
         return width;
     }
+    animal(const animal &a) : height(a.height), width(a.width) {}
+    animal &operator=(const animal &a)
+    {
+        width = a.width;
+        height = a.height;
+        return *this;
+    }
+    // animal& operator*(){
+    //     return *this;
+    // }
     virtual ~animal() = default;
 };
 
@@ -61,14 +72,22 @@ class rabbit : public animal
 
 int main()
 {
-    rabbit a(1, 1, 1);
-    animal bb(1,1);
-    animal aa(2,2);
-    animal *b=&(bb);
-    *b = aa;
+    // rabbit a(1, 1, 1);
+    // animal bb(1, 2);
+    // animal aa(2, 2);
+    // animal *b = nullptr;
+    // *b = a;
     // b->height=5;
     // b->width=5;
-    cout << b->height<< endl;
-    cout << b->width << endl;
+    int* p = 0;
+    //auto p=make_shared<int>(2);
+    // int x=1;
+     p=new int(2);
+    //cout << b->height<< endl;
+    cout << *p << endl;
+    //cout<<endl;
+    delete p;
+    p=nullptr;
+    cout << *p << endl;
     return 0;
 }
