@@ -142,9 +142,11 @@ void deliver_apple() {
 	cin >> n;
 	int sum = 0;
 	while (n--) {
-		int x; cin >> x; v.push_back(x); sum += x;
+		int x; cin >> x; 
+		sum += x;
+		v.push_back(x); 
 	}
-	auto average = sum / n;
+	auto average = sum / (v.size());
 	sort(v.begin(), v.end());
 	auto it = find(v.begin(), v.end(), average);
 	auto co = count(v.begin(), v.end(), average);
@@ -157,12 +159,15 @@ void deliver_apple() {
 		}
 		if (size == 1 && v[0] != average)
 			break;
-		if (size == 1 && v[0] == average)
+		if (size == 1 && v[0] == average) {
 			v.pop_back();
+			break;
+		}
 		count++;
 		v[0] += 2; v[size - 1] -= 2;
 		if (v[0] == average)
 			v.pop_front();
+		size = v.size();
 		if (v[size - 1] == average)
 			v.pop_back();
 	}
@@ -174,7 +179,88 @@ void deliver_apple() {
 	}
 }
 
+void sum_of_array() {
+	int n, sum;
+	cin >> n >> sum;
+	vector<int> v; int x;
+	while (n--) {
+		cin >> x;
+		v.push_back(x);
+	}
+	n = v.size();
+	vector<vector<long long>> v1(n+1, vector<long long>(sum+1, 0));
+	for (int i = 0; i < n+1; i++)
+		v1[i][0] = 1;
+	for (int i = 1; i <= sum; i++)
+		v1[0][i] = 0;
+	for(int i=1;i<n+1;i++)
+		for (int j = 0; j <= sum; j++) {
+			if (v[i-1] <= j) {
+				v1[i][j] = v1[i - 1][j] + v1[i - 1][j - v[i-1]];
+			}
+			else {
+				v1[i][j] = v1[i - 1][j];
+			}
+		}
+	cout << v1[n][sum];
+}
+
+void star_war() {
+	long long h;
+	cin >> h;
+	auto x = sqrtl(h);
+	cout.setf(ios::fixed);//十进制计数法，不是科学计数法
+	cout.precision(0);
+	if(x==(long)x)
+		cout << x - 1;
+	else{
+		if(floor(x)*(floor(x)+1)<=h)
+		cout << floor(x);
+		else {
+			cout << floor(x)-1;
+		}
+	}
+}
+
+void maxsum_Continuity() {
+	vector<int> v;
+	normal_input(v);
+	vector<int> v1(v.size(), 0);
+	int x = 0,max_sum=v[0];
+	for (int i = 0; i < v.size(); i++) {
+		x += v[i];
+		if (x < 0)
+			x = 0; else {
+			max_sum = max(max_sum, x);
+		}
+	}
+	cout << max_sum << endl;
+}
+
+void help(int n, int m, deque<int> &d, int begin) {
+	if (m == 0) {
+		for (int i = 0; i < d.size(); i++)
+			i == 0 ? cout << d[i] : cout << " " << d[i];
+		cout << endl;
+	}
+	else {
+		for (int i = begin; i <= m && i <= n; i++) {
+			d.push_back(i);
+			help(n, m - i, d, i + 1);
+			d.pop_back();
+		}
+	}
+}
+
+void sum_of_array_number() {
+	int n, m;
+	cin >> n >> m;
+	deque<int> d;
+	help(n, m, d, 1);
+}
+
+
 int main() {
-	deliver_apple();
+	sum_of_array_number();
 	system("pause");
 }
