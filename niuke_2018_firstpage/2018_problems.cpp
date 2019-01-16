@@ -4,6 +4,8 @@
 #include<unordered_map>
 #include<string>
 #include<regex>
+#include<deque>
+#include<bitset>
 using namespace std;
 class BSTNode {
 public:
@@ -121,7 +123,47 @@ void repeat_substr() {
 	cout << max_len;
 }
 
+void number_transfer_machine() {
+	long long a, b, c, d;
+	cin >> a >> b >> c >> d;
+	if (a > c || b > d)
+		cout << -1 << endl;
+	else if ((a == c && b != d) || (a != c && b == d)) {
+		cout << -1 << endl;
+	}
+	else if ((c%2==1&&d%2==0)||(c%2==0&&d%2==1)) {
+		cout << -1 << endl;
+	}
+	else if (a == c && b == d) {
+		cout << 0 << endl;
+	}
+	else {
+		int count = 0;
+		while (a*4 <= c && b*4 <= d) {
+			a *= 2; b *= 2;
+			count++;
+		}
+		if (c % 2) { c -= 1; d -= 1; count++;  }
+		if (c / 2 - a != d / 2 - b) { cout << -1 << endl; }
+		else {
+			count += (c / 2 - a + 1);
+			cout << count << endl;
+		}
+	}
+}
+
+void bit_different_numbers() {
+	int a, b;
+	cin >> a >> b;
+	bitset<32> b1(a), b2(b); int count = 0;
+	for (int i = 0; i < 32; i++) {
+		if (b1[i] != b2[i])
+			count += 1;
+	}
+	cout << count << endl;
+}
+
 int main() {
-	repeat_substr();
+	bit_different_numbers();
 	system("pause");
 }
