@@ -42,7 +42,7 @@ int judge_BST() {
 	auto x = new BSTNode(root);
 	m.insert(make_pair(root, x));
 	int n, l,r;
-	while (scanf_s("%d:%d|%d", &n, &l, &r)) {
+	while (scanf("%d:%d|%d", &n, &l, &r)) {
 		//auto y = m[n];
 		if (n == 0)
 			break;
@@ -163,7 +163,64 @@ void bit_different_numbers() {
 	cout << count << endl;
 }
 
+void bus(){
+	int n,m;
+	cin>>n>>m;
+	vector<vector<int>> v;
+	vector<vector<int>> v2(n+1,vector<int>(n+1,0));
+	auto z=m;
+	while(m){
+		int n1;
+		cin>>n1;
+		vector<int> v1(n1,0);
+		auto x=n1;
+		while(n1){
+			int xx;
+			cin>>xx;
+			v1[x-n1]=xx;
+			n1--;
+		}
+		v.push_back(v1);
+		m--;
+	}
+	//cout<<v.size()<<endl;
+	// for(auto zz:v){
+		
+	// 	for(auto zzz:zz){
+	// 		cout<<zzz<<" ";
+	// 	}
+	// 	cout<<endl;
+	// }
+	//int count=0;
+	for(auto lt=v.begin();lt!=v.end();lt++){
+	for(auto it=(*lt).begin();it!=(*lt).end();it++){
+	for(auto ii=(*lt).begin();ii!=(*lt).end();ii++){
+		//  if(ii==it)
+		//  continue;
+		//cout<<*it<<" "<<*ii<<endl;
+		v2[*it][*ii]=1;
+		//cout<<++count<<endl;
+	}
+	}
+	}
+	vector<int> v3(n+1,0);
+	v3[1]=0;
+	for(int i=2;i<n+1;i++){
+		int min_len=100001;
+		for(int j=1;j<i;j++){
+			if(v2[j][i]==1&&v3[j]!=-1)
+				min_len=min(min_len,v3[j]);
+		}
+		if(min_len==100001)
+		v3[i]=-1;
+		else{
+			v3[i]=min_len+1;
+		}
+	}
+	cout<<v3[n]<<endl;
+}
+
 int main() {
-	bit_different_numbers();
+	bus();
 	system("pause");
 }
