@@ -9,6 +9,7 @@
 #include<deque>
 #include<bitset>
 #include<set>
+#include<unordered_map>
 using namespace std;
 class BSTNode {
 public:
@@ -45,7 +46,7 @@ int judge_BST() {
 	auto x = new BSTNode(root);
 	m.insert(make_pair(root, x));
 	int n, l,r;
-	while (scanf_s("%d:%d|%d", &n, &l, &r)) {
+	while (scanf("%d:%d|%d", &n, &l, &r)) {
 		//auto y = m[n];
 		if (n == 0)
 			break;
@@ -329,14 +330,20 @@ void memory() {
 	}
 }
 
+bool is_square(pair<int,int> p1,pair<int,int> p2,pair<int,int> p3,pair<int,int> p4){
+if((p1.first*p2.first+p1.second*p2.second==0)&&((p3==p4)||(p3.first==(0-p4.first)&&p3.second==(0-p4.second))))
+return true;
+return false;
+}
+
 void magic() {
 	int n;
 	cin >> n;
-	multimap<string, string> m;
+	vector<pair<string,string>> m;
+	string s1,s2;
 	while (n--) {
-		string s1,s2;
 		cin >> s1; cin >> s2;
-		m.insert(make_pair(s1, s2));
+		m.push_back(make_pair(s1, s2));
 	}
 	for (auto mm : m) {
 		//cout << mm.first << " " << mm.second << endl;
@@ -346,27 +353,28 @@ void magic() {
 		auto x = pow(mm.first[1] - mm.first[0], 2) + pow(mm.second[1] - mm.second[0], 2);
 		auto y= pow(mm.first[2] - mm.first[0], 2) + pow(mm.second[2] - mm.second[0], 2);
 		auto z= pow(mm.first[3] - mm.first[0], 2) + pow(mm.second[3] - mm.second[0], 2);
-		if (x == y) {
+		//cout<<x<<" "<<y<<" "<<z<<endl;
+		if (x == y&&x+y==z) {
 			auto side4= make_pair(mm.first[3] - mm.first[2], mm.second[3] - mm.second[2]);
-			if ((side1.first*side2.first + side1.second*side2.second == 0) && side4 == side1) {
+			if (is_square(side1,side2,side4,side1)) {
 				cout << "YES"<<endl;
 			}
 			else {
 				cout << "NO" << endl;
 			}
 		}
-		else if (x == z) {
+		else if (x == z&&x+z==y) {
 			auto side4 = make_pair(mm.first[2] - mm.first[1], mm.second[2] - mm.second[1]);
-			if ((side1.first*side3.first + side1.second*side3.second == 0) && (side4 == side3||(side4.first==0-side3.first&&side4.second==0-side3.second))) {
+			if (is_square(side1,side3,side4,side3)) {
 				cout << "YES" << endl;
 			}
 			else {
 				cout << "NO" << endl;
 			}
 		}
-		else if (y == z) {
+		else if (y == z&&y+z==x) {
 			auto side4 = make_pair(mm.first[2] - mm.first[1], mm.second[2] - mm.second[1]);
-			if ((side2.first*side3.first + side2.second*side3.second == 0) && (side4 == side3 || (side4.first == 0 - side3.first&&side4.second == 0 - side3.second))) {
+			if (is_square(side2,side3,side4,side3)) {
 				cout << "YES" << endl;
 			}
 			else {
