@@ -1,11 +1,14 @@
 #include<iostream>
 #include<cstdio>
 #include<map>
+#include<vector>
+#include<cmath>
 #include<unordered_map>
 #include<string>
 #include<regex>
 #include<deque>
 #include<bitset>
+#include<set>
 using namespace std;
 class BSTNode {
 public:
@@ -42,7 +45,7 @@ int judge_BST() {
 	auto x = new BSTNode(root);
 	m.insert(make_pair(root, x));
 	int n, l,r;
-	while (scanf("%d:%d|%d", &n, &l, &r)) {
+	while (scanf_s("%d:%d|%d", &n, &l, &r)) {
 		//auto y = m[n];
 		if (n == 0)
 			break;
@@ -220,7 +223,162 @@ void bus(){
 	cout<<v3[n]<<endl;
 }
 
+void judge_problem() {
+	int n, t, a;
+	cin >> n >> t >> a;
+	int max;
+	if (t > a) {
+		max = n - (t - a);
+	}
+	else if (t == a) {
+		max = n;
+	}
+	else {
+		max = n - (a - t);
+	}
+	cout << max << endl;
+}
+
+long fibonacci(int n) {
+	long *a = new long[n+1];
+	a[0] = 0; a[1] = 1; a[2] = 1;
+	for (int i = 3; i <= n; i++) {
+		a[i] = a[i - 1] + a[i - 2];
+	}
+	return a[n];
+}
+
+void fibonacci_sequence() {
+	int n;
+	cin >> n;
+	cout << fibonacci(n) << endl;
+	
+}
+
+void roast_fish() {
+	int n, m;
+	cin >> n >> m;
+	int length;
+	if (m >= n) {
+		length = 2;
+	}
+	else {
+		auto x = n % m;
+		auto y = n / m;
+		length = 2*y;
+		if (x != 0) {
+			if (x <= m / 2) {
+				length += 1;
+			}
+			else
+			{
+				length += 2;
+			}
+		}
+	}
+	cout << length << endl;
+}
+
+bool is_sushu(int n) {
+	if (n == 2) {
+		return true;
+	}
+	else {
+		int i = 2;
+		for (; i <= sqrt(n); i++) {
+			if (n%i == 0)
+				break;
+		}
+		//cout << sqrt(n)+1 << endl;
+		if (i == (int)sqrt(n)+1) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+void limit_area() {
+	int n;
+	cin >> n;
+	vector<int> v;
+	for (int i = 2; i <= n; i++) {
+		if (is_sushu(i) == true) {
+			auto x = i;
+			v.push_back(x);
+			int j = 2;
+			while ((x=pow(i,j)) <= n) {
+				v.push_back(x);
+				j++;
+			}
+		}
+	}
+	cout << v.size() << endl;
+}
+
+void memory() {
+	int L, R, W;
+	cin >> L >> R >> W;
+	if (L - R >= W) {
+		cout << "OK";
+	}
+	else {
+		cout << "DEADLOCK";
+	}
+}
+
+void magic() {
+	int n;
+	cin >> n;
+	multimap<string, string> m;
+	while (n--) {
+		string s1,s2;
+		cin >> s1; cin >> s2;
+		m.insert(make_pair(s1, s2));
+	}
+	for (auto mm : m) {
+		//cout << mm.first << " " << mm.second << endl;
+		auto side1 = make_pair(mm.first[1] - mm.first[0], mm.second[1] - mm.second[0]);
+		auto side2= make_pair(mm.first[2] - mm.first[0], mm.second[2] - mm.second[0]);
+		auto side3= make_pair(mm.first[3] - mm.first[0], mm.second[3] - mm.second[0]);
+		auto x = pow(mm.first[1] - mm.first[0], 2) + pow(mm.second[1] - mm.second[0], 2);
+		auto y= pow(mm.first[2] - mm.first[0], 2) + pow(mm.second[2] - mm.second[0], 2);
+		auto z= pow(mm.first[3] - mm.first[0], 2) + pow(mm.second[3] - mm.second[0], 2);
+		if (x == y) {
+			auto side4= make_pair(mm.first[3] - mm.first[2], mm.second[3] - mm.second[2]);
+			if ((side1.first*side2.first + side1.second*side2.second == 0) && side4 == side1) {
+				cout << "YES"<<endl;
+			}
+			else {
+				cout << "NO" << endl;
+			}
+		}
+		else if (x == z) {
+			auto side4 = make_pair(mm.first[2] - mm.first[1], mm.second[2] - mm.second[1]);
+			if ((side1.first*side3.first + side1.second*side3.second == 0) && (side4 == side3||(side4.first==0-side3.first&&side4.second==0-side3.second))) {
+				cout << "YES" << endl;
+			}
+			else {
+				cout << "NO" << endl;
+			}
+		}
+		else if (y == z) {
+			auto side4 = make_pair(mm.first[2] - mm.first[1], mm.second[2] - mm.second[1]);
+			if ((side2.first*side3.first + side2.second*side3.second == 0) && (side4 == side3 || (side4.first == 0 - side3.first&&side4.second == 0 - side3.second))) {
+				cout << "YES" << endl;
+			}
+			else {
+				cout << "NO" << endl;
+			}
+		}
+		else {
+			cout << "NO" << endl;
+		}
+	}
+}
 int main() {
-	bus();
+	magic();
 	system("pause");
 }
