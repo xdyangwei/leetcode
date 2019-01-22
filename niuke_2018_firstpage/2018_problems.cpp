@@ -46,7 +46,7 @@ int judge_BST() {
 	auto x = new BSTNode(root);
 	m.insert(make_pair(root, x));
 	int n, l,r;
-	while (scanf("%d:%d|%d", &n, &l, &r)) {
+	while (scanf_s("%d:%d|%d", &n, &l, &r)) {
 		//auto y = m[n];
 		if (n == 0)
 			break;
@@ -386,7 +386,133 @@ void magic() {
 		}
 	}
 }
+
+void super_link() {
+	int n;
+	cin >> n;
+	set<string> s;
+	string s1;
+	while (n--) {
+		cin >> s1; s.insert(s1);
+	}
+	int m;
+	cin >> m;
+	string s2;
+	while (m--) {
+		cin >> s2; s.erase(s2);
+	}
+	for (auto ss : s) {
+		cout << ss << endl;
+	}
+}
+
+void find_number() {
+	int n;
+	cin >> n;
+	int x;
+	vector<int> v;
+	while (n--) {
+		cin >> x;
+		v.push_back(x);
+	}
+	sort(v.begin(), v.end());
+	auto it = unique(v.begin(), v.end(), [](int a, int b) {return b - a != 1 ? true : false; });
+	if (it == v.end()) {
+		cout << 0 << endl;
+	}
+	else {
+		cout << (*it) - 1 << endl;
+	}
+}
+
+void construct_number() {
+	int n;
+	cin >> n;
+	
+}
+
+void q_sort() {
+	int n;
+	cin >> n;
+	int x;
+	vector<int> v;
+	while (n--) {
+		cin >> x;
+		v.push_back(x);
+	}
+	auto it = unique(v.begin(), v.end(), [](int a, int b) {return a < b ? true : false; });
+	if (it == v.end()) {
+		cout << 0 << endl;
+	}
+	else {
+		auto y = v[0];
+		auto z = v[v.size() - 1];
+		auto it1 = find_if(v.begin(), v.end(), [y](int a) {return a > y ? true : false; });
+		auto it2 = find_if(v.begin(), v.end(), [z](int a) {return a < z ? true : false; });
+		auto it3 = find_if(v.begin(), v.end(), [y](int a) {return a < y ? true : false; });
+		auto it4 = find_if(v.begin(), v.end(), [z](int a) {return a > z ? true : false; });
+		if (it1 == v.end() && it2 == v.end()) {
+			cout << 3 << endl;
+		}
+		else if(it3==v.end()||it4==v.end()){
+			cout << 1 << endl;
+		}
+		else {
+			cout << 2 << endl;
+		}
+	}
+}
+
+void closest_string() {
+	string s;
+	cin >> s;
+	for (int i = 0, j = s.size() - 1; i < j; i++, j--) {
+		if (s[i] != s[j]) {
+			s[j]=s[i];
+		}
+	}
+	cout << s << endl;
+}
+
+void greedy_bo() {
+	int n; cin >> n;
+	int nn = n;
+	int x;long long sum = 0;
+	while (n--) {
+		cin >> x;
+		sum += x;
+	}
+	cout << sum - nn + 1 << endl;
+}
+
+void max_grade() {
+	int n;
+	cin >> n;
+	if (n == 0&&n==1) {
+		cout << 0 << endl;
+	}
+	else if (n == 2) {
+		cout << 1 << endl;
+	}
+	else if (n == 3) {
+		cout << 3 << endl;
+	}
+	else {
+		vector<int> v(n+1, 0);
+		v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3;
+		for (int i = 4; i <= n; i++) {
+			for (int j = 1; j < i; j++) {
+				v[i] = max(v[i-j]*v[j],v[i]);
+				//cout << v[i] << endl;
+			}
+		}
+		cout << v[n] << endl;
+	}
+}
+
+
+
 int main() {
-	magic();
+	
 	system("pause");
 }
