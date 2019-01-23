@@ -10,6 +10,8 @@
 #include<bitset>
 #include<set>
 #include<unordered_map>
+#include<iomanip>
+#include<boost/lambda/lambda.hpp>
 using namespace std;
 class BSTNode {
 public:
@@ -510,9 +512,164 @@ void max_grade() {
 	}
 }
 
+void delete_repeat_str() {
+	string s;
+	cin >> s;
+	vector<char> v;
+	for (auto ss : s) {
+		if (find(v.begin(), v.end(), ss) == v.end()) {
+			v.push_back(ss);
+		}
+	}
+	for (auto vv : v)
+		cout << vv;
+}
 
+void sort_sequence() {
+	int n;
+	cin >> n;
+	vector<int> v;
+	int x;
+	while (n--) {
+		cin >> x; v.push_back(x);
+	}
+	auto v1 = v; sort(v.begin(), v.end()); int count = 0;
+	for (int i = 0; i < v.size(); i++) {
+		if (v1[i] != v[i])
+			count++;
+	}
+	cout << count << endl;
+
+}
+
+void sum_of_array() {
+	double n, m;
+	vector<double> v;
+	while (cin >> n >> m) {
+		double sum=n;
+		while (m>1) {
+			sum += sqrt(n);
+			n = sqrt(n);
+			m--;
+		}
+		v.push_back(sum);
+	}
+	cout.setf(ios::fixed);
+	cout << setprecision(2);
+	for (auto xx : v)
+		cout << xx << endl;
+}
+
+void str_override() {
+	string s;
+	cin >> s;
+	string s1;
+	cin >> s1;
+	multiset<char> s2;
+	for (auto ss : s1)
+		s2.insert(ss);
+	auto i = s2.rbegin();
+	for (int j=0; (i != (s2.rend())&&j<s.size());j++) {
+		if ((*i) > s[j]) {
+			s[j] = (*i);
+			i++;
+		}
+	}
+	for (auto ss : s)
+		cout << ss;
+}
+
+void cross_sequence() {
+	int n;
+	cin >> n;
+	vector<int> v{0};
+	int x;
+	auto nn = n;
+	while (n--) {
+		cin >> x;
+		v.push_back(x);
+	}
+	vector<int> v1(nn+1 , 0);
+	v1[1] = 1;
+	if (nn >= 2) {
+		v1[2] = v[1] == v[2] ? 1 : 2;
+		for (int i = 3; i < v1.size(); i++) {
+			if (v[i - 2] == v[i - 1]) {
+				if (v[i] != v[i - 2]) {
+					v1[i] = v1[i - 1] + 1;
+				}
+				else {
+					v1[i] = v1[i - 1];
+				}
+			}
+			else {
+				if (v[i] != v[i - 1]) {
+					v1[i] = v1[i - 1] + 1;
+				}
+				else {
+					v1[i] = v1[i - 1];
+				}
+			}
+		}
+	}
+	cout << v1[nn];
+}
+
+void magic_watch() {
+	int n1, n2;
+	cin >> n1 >> n2;
+	int min_circle;
+	if (n2 >= n1) {
+		int x = n2 - n1;
+		int y = n1 + 360 - n2;
+		//int z = min(x, y);
+		if (x == min(x, y))
+			min_circle = x;
+		else {
+			min_circle = 0-y;
+		}
+	}
+	else {
+		int x = n1 - n2;
+		int y = n2 + 360 - n1;
+		if (x == min(x, y))
+			min_circle = 0-x;
+		else
+		{
+			min_circle = y;
+		}
+	}
+	cout << min_circle << endl;
+}
+
+int F(int m, int n)
+{
+	if (m == 0 || n == 1)         
+		return 1;     
+	else if (m < n)         
+		return F(m, m);     
+	else         
+		return F(m, n - 1) + F(m - n, n);
+}
+
+void drop_water() {
+	int x;
+	cin >> x;
+	int m, n;
+	vector<pair<int, int>> v;
+	while (x--) {
+		cin >> m >> n;
+		v.push_back(make_pair(m, n));
+	}
+	for (auto vv : v) {
+		cout <<F(vv.first,vv.second) << endl;
+	}
+}
 
 int main() {
-	
+	using namespace boost::lambda;
+	typedef std::istream_iterator<int> in;
+	std::for_each(
+		in(std::cin), in(), std::cout << (_1 * 3) << " ");
 	system("pause");
 }
