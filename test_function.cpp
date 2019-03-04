@@ -1,10 +1,11 @@
+#include <thread>
 #include <iostream>
 #include <functional>
 #include <algorithm>
 #include <vector>
 #include <cmath>
 #include <bitset>
-#include<memory>
+#include <memory>
 using namespace std;
 bool compare(int a, int b)
 {
@@ -70,24 +71,20 @@ class rabbit : public animal
     }
 };
 
+void output(int i)
+{
+    cout << i << endl;
+}
+
 int main()
 {
-    // rabbit a(1, 1, 1);
-    // animal bb(1, 2);
-    // animal aa(2, 2);
-    // animal *b = nullptr;
-    // *b = a;
-    // b->height=5;
-    // b->width=5;
-    int* p = 0;
-    //auto p=make_shared<int>(2);
-    // int x=1;
-     p=new int(2);
-    //cout << b->height<< endl;
-    cout << *p << endl;
-    //cout<<endl;
-    delete p;
-    p=nullptr;
-    cout << *p << endl;
+
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        thread t(output, i);
+        t.detach();
+    }
+
+    getchar();
     return 0;
 }
