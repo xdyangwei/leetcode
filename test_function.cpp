@@ -6,6 +6,9 @@
 #include <cmath>
 #include <bitset>
 #include <memory>
+#include<chrono>
+#include<ctime>
+#include<iomanip>
 using namespace std;
 bool compare(int a, int b)
 {
@@ -78,13 +81,7 @@ void output(int i)
 
 int main()
 {
-
-    for (uint8_t i = 0; i < 4; i++)
-    {
-        thread t(output, i);
-        t.detach();
-    }
-
-    getchar();
+    auto x=std::time(nullptr);
+cout<<std::put_time(std::localtime(&x),"%c %Z")<<endl;
     return 0;
 }
