@@ -198,9 +198,53 @@ double dp_cards_game2() {
 		return dp[0][n - 1];
 	}
 
+class goods {
+public:
+	goods(int x, int y, int z) :
+		m(x), w(y), s(z) {}
+	goods() = default;
+	int m;
+	int w;
+	int s;
+};
+
+
+int recursive_bag(vector<goods> v1,int v,int j) {
+	if (v > 0) {
+		int largest = 0;
+		if (j >= 0) {
+			v1[j].m -= 1;
+		}
+		for (auto i = 0; i < v1.size();i++) {
+			if (v1[i].w <= v&&v1[i].m>=1) {
+				largest = max(recursive_bag(v1, v - v1[i].w,i)+v1[i].s, largest);
+			}
+		}
+		return largest;
+	}
+	else {
+		return 0;
+	}
+
+
+}
+
+int QQ_bag() {
+	int n, v;
+	cin >> n >> v;
+	vector<goods> v1;
+	while (n--) {
+		int m, w, s;
+		cin >> m >> w >> s;
+		v1.push_back(goods(m,w,s));
+	}
+	sort(v1.begin(), v1.end(), [](goods a, goods b) {return a.w < b.w ? true : false; });
+	return recursive_bag(v1, v,-1);
+}
+
+
 int main() {
-	cout << setiosflags(ios::fixed);
-	cout << setprecision(3)<<dp_cards_game();
+	cout << QQ_bag();
 	getchar();
 	return 0;
 }
