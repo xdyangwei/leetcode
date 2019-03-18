@@ -5,6 +5,9 @@
 #include<map>
 #include<regex>
 #include<iomanip>
+#include<cmath>
+#include<stack>
+#include<deque>
 using namespace std;
 int reverse_array(int n,int m) {
 	return n / 2 * m;
@@ -242,9 +245,196 @@ int QQ_bag() {
 	return recursive_bag(v1, v,-1);
 }
 
+void reset_number() {
+	int n;
+	std::cin >> n;
+	std::vector<int> v; int x;
+	while (n--) {
+		std::cin >> x; v.push_back(x);
+	}
+	for (auto xx : v) {
+		auto z = xx;
+		bool flag = 0;
+		std::vector<std::string> v1;
+		while (xx >= 1) {
+			auto x = xx % 10;
+			v1.insert(v1.begin(),std::to_string(x));
+			xx = xx / 10;
+		}
+		while (std::next_permutation(v1.begin(), v1.end())) {
+			std::string s;
+			for (auto x : v1) {
+				s += x;
+			}
+			if (std::stoi(s) % z==0) {
+				flag = 1;
+				break;
+			}
+		}
+		if (flag == 1)
+			std::cout << "Possible" << std::endl;
+		else {
+			std::cout << "Impossible" << std::endl;
+		}
+	}
+}
+
+void least_coins() {
+	int a[4];
+	cin >> a[0] >> a[1] >> a[2] >> a[3];
+	sort(begin(a), end(a));
+	cout << a[3] - a[0] + a[2] - a[1] << endl;
+}
+
+struct busline
+{
+	int start;
+	int end;
+	int time;
+	busline(int a, int b, int c) :
+		start(a), end(b), time(c) {}
+};
+
+int recursive_transfer(int d,vector<busline> v) {
+	//vector<busline> v1;
+	if (d == 0) {
+		return 0;
+	}
+	else {
+		auto sum = 100000000;
+		//int flag = 0;
+		for (auto xx : v) {
+			if (xx.end == d) {
+				//flag = 1;
+				sum = min(sum, recursive_transfer(xx.start, v) + xx.time);
+			}
+		}
+		//if(flag)
+		return sum;
+		
+	}
+}
+
+void transfer() {
+	int d, n;
+	cin >> d >> n;
+	vector<busline> v;
+	while (n--) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		v.push_back(busline(a, b, c));
+	}
+	cout << recursive_transfer(d, v);
+}
+
+void number_char_mix_sort() {
+	string s;
+	cin >> s;
+	sort(begin(s), end(s), [](char a,char b)->bool {
+		if (a >= 'a'&&a <= 'z'&&b >= '0'&&b <= '9') {
+			return true;
+		}
+		else if (a >= '0'&&a <= '9'&&b >= 'a'&&b <= 'z') {
+			return false;
+		}
+		else
+		{
+			return a < b;
+		}
+	});
+	for (auto xx : s)
+		cout << xx;
+}
+
+bool is_leap_year(int n) {
+	if ((n % 4 == 0 && n % 100 == 1) || n % 400 == 0) {
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void nth_day_of_year() {
+	int year, month, day;
+	while (cin >> year >> month >> day) {
+		if (month <= 2) {
+			cout << (month == 1) ? day : 31 + day;
+		}
+		else
+		{
+			int flag = 0;
+			if (is_leap_year(year))
+				flag = 1;
+				switch (month)
+				{
+				case 3:
+					cout << 31 + 28 + flag + day; break;
+				case 4:
+					cout<< 31 + 28 + flag + day+31; break;
+				case 5:
+					cout << 31 + 28 + flag + day + 30+31; break;
+				case 6:
+					cout << 31 + 28 + flag + day + 31+30+31; break;
+				case 7:
+					cout << 31 + 28 + flag + day + 30+31+31+30; break;
+				case 8:
+					cout << 31 + 28 + flag + day + 30+31+31+30+31; break;
+				case 9:
+					cout << 31 + 28 + flag + day + 30 + 31 + 31 + 30 + 31+31; break;
+				case 10:
+					cout << 31 + 28 + flag + day + 30 + 31 + 31 + 30 + 31+31+30; break;
+				case 11:
+					cout << 31 + 28 + flag + day + 30 + 31 + 31 + 30 + 31+31+30+31; break;
+				case 12:
+					cout << 31 + 28 + flag + day + 30 + 31 + 31 + 30 + 31+31+30+31+30; break;
+				}
+		}
+	}
+}
+
+void bracket_match() {
+	string s;
+	cin >> s;
+	stack<char> s1;
+	int count1 = 0, count2 = 0;
+	auto ss = s;
+	for (auto xx : s) {
+		if (xx == '[') {
+			s1.push(xx);
+			count1++;
+		}
+		else {
+			if (!s1.empty()) {
+				auto x = s1.top();
+				if (x == '[') {
+					//s1.push(xx);
+					s1.pop(); count1--;
+				}
+				else {
+					s1.push(xx);
+					count2++;
+				}
+			}
+			else
+			{
+				s1.push(xx);
+				count2++;
+			}
+		}
+	}
+	while (count1--) {
+		ss.append(string(1,']'));
+	}
+	while (count2--) {
+		ss.insert(0, string(1, '['));
+	}
+	cout << ss << endl;
+}
 
 int main() {
-	cout << QQ_bag();
+	bracket_match();
 	getchar();
 	return 0;
 }
