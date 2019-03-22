@@ -9,6 +9,18 @@
 #include<stack>
 #include<deque>
 using namespace std;
+
+template <typename T>
+struct Binary_Node {
+	T data;
+	Binary_Node<T>* left_child;
+	Binary_Node<T>* right_child;
+	Binary_Node(T v) :
+		data(v), left_child(nullptr), right_child(nullptr) {}
+	Binary_Node() = default;
+
+};
+
 int reverse_array(int n,int m) {
 	return n / 2 * m;
 }
@@ -433,8 +445,108 @@ void bracket_match() {
 	cout << ss << endl;
 }
 
+template <typename T>
+std::vector<std::vector<int> > Print(Binary_Node<T>* pRoot) {
+	std::stack<Binary_Node<T>*> s1; std::stack<Binary_Node<T>*> s2;
+	s1.push(pRoot); int i = 1;
+	std::vector<std::vector<T>> result;
+	while (!s1.empty() || !s2.empty()) {
+		if (!s1.empty()) {
+			std::vector<T> data;
+			while (i % 2 == 1) {
+				auto x = s1.top();
+				data.push_back(x->data);
+				s1.pop();
+				if (x->left_child != nullptr)
+					s2.push(x->left_child);
+				if (x->right_child != nullptr)
+				s2.push(x->right_child);
+				if (s1.empty()) {
+					i++;
+				}
+			}
+			result.push_back(data);
+		}
+		if (!s2.empty())
+		{
+			std::vector<T> data;
+			while (i % 2 == 0) {
+				auto x = s2.top();
+				data.push_back(x->data);
+				s2.pop();
+				if(x->right_child!=nullptr)
+					s1.push(x->right_child);
+				if (x->left_child != nullptr)
+					s1.push(x->left_child);
+				if (s2.empty()) {
+					i++;
+				}
+			}
+			result.push_back(data);
+		}
+	}
+	return result;
+}
+
+template <typename T>
+vector<vector<int> > FindPath(Binary_Node<T>* root, int expectNumber) {
+	if (root != nullptr) {
+		vector<decltype(root)> v1; 
+		vector<vector<T>> v2;
+		if (root->left_child != nullptr) {
+			int count = 1;
+			while (root != nullptr || !v1.empty()) {
+				while (root != nullptr) {
+					v1.push_back(root);
+					root = root->left_child;
+				}
+				if (!v1.empty()) {
+					auto x = v1[v1.size() - count];
+					if (root == nullptr) {
+						auto sum = 0;
+						for (auto xx : v1) {
+							sum += (xx->data);
+						}
+						cout << sum << endl;
+						if (sum == expectNumber) {
+							vector<T> v3;
+							for (auto xx : v1)
+								v3.push_back(xx->data);
+							v2.push_back(v3);
+						}
+					}
+					//v1.erase(v1.end() - 1);
+					root = x->right_child;
+					count++;
+				}
+			}
+			return v2;
+		}
+		else {
+			cout << root->data << endl;
+			vector<vector<int>> v;
+			return v;
+		}
+	}
+	else {
+		cerr << "empty binary tree" << endl;
+		vector<vector<int>> v;
+		return v;
+	}
+}
+
 int main() {
-	bracket_match();
+	Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
+	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
+	Binary_Node<int> n8(8); Binary_Node<int> n9(9); Binary_Node<int> n10(10); Binary_Node<int> n11(11);
+	n1.left_child = &n2; n1.right_child = &n3; n2.left_child = &n4; n2.right_child = &n5; n3.left_child = &n6; n3.right_child = &n7;
+	n4.left_child = &n8; n4.right_child = &n9; n5.left_child = &n10;
+	auto z = FindPath(&n1,18);
+	/*for(auto x:z){
+		for(auto xx:x)
+			std::cout<<xx<<" ";
+		std::cout<<std::endl;
+	}*/
 	getchar();
 	return 0;
 }
