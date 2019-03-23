@@ -489,49 +489,36 @@ std::vector<std::vector<int> > Print(Binary_Node<T>* pRoot) {
 }
 
 template <typename T>
-vector<vector<int> > FindPath(Binary_Node<T>* root, int expectNumber) {
+void recursive_find_path(Binary_Node<T>* root, int expectNumber,vector<int>& v,vector<vector<int>>& v1) {
 	if (root != nullptr) {
-		vector<decltype(root)> v1; 
-		vector<vector<T>> v2;
-		if (root->left_child != nullptr) {
-			int count = 1;
-			while (root != nullptr || !v1.empty()) {
-				while (root != nullptr) {
-					v1.push_back(root);
-					root = root->left_child;
-				}
-				if (!v1.empty()) {
-					auto x = v1[v1.size() - count];
-					if (root == nullptr) {
-						auto sum = 0;
-						for (auto xx : v1) {
-							sum += (xx->data);
-						}
-						cout << sum << endl;
-						if (sum == expectNumber) {
-							vector<T> v3;
-							for (auto xx : v1)
-								v3.push_back(xx->data);
-							v2.push_back(v3);
-						}
-					}
-					//v1.erase(v1.end() - 1);
-					root = x->right_child;
-					count++;
-				}
-			}
-			return v2;
+		if ((expectNumber-root->data) == 0&&root->left_child==nullptr&&root->right_child==nullptr) {
+			v.push_back(root->data);
+			v1.push_back(v);
 		}
 		else {
-			cout << root->data << endl;
-			vector<vector<int>> v;
-			return v;
+			v.push_back(root->data);
+			if (root->left_child != nullptr)
+				recursive_find_path(root->left_child, expectNumber - root->data, v, v1);
+			if(root->right_child!=nullptr)
+				recursive_find_path(root->right_child, expectNumber - root->data, v, v1);
 		}
+		v.pop_back();
 	}
 	else {
-		cerr << "empty binary tree" << endl;
-		vector<vector<int>> v;
-		return v;
+		return ;
+	}
+}
+
+template <typename T>
+vector<vector<int> > FindPath(Binary_Node<T>* root, int expectNumber) {
+	vector<vector<int>> v1;
+	if (root != nullptr) {
+		vector<int> v;
+		recursive_find_path(root, expectNumber, v, v1);
+		return v1;
+	}
+	else {
+		return v1;
 	}
 }
 
@@ -542,11 +529,11 @@ int main() {
 	n1.left_child = &n2; n1.right_child = &n3; n2.left_child = &n4; n2.right_child = &n5; n3.left_child = &n6; n3.right_child = &n7;
 	n4.left_child = &n8; n4.right_child = &n9; n5.left_child = &n10;
 	auto z = FindPath(&n1,18);
-	/*for(auto x:z){
+	for(auto x:z){
 		for(auto xx:x)
 			std::cout<<xx<<" ";
 		std::cout<<std::endl;
-	}*/
+	}
 	getchar();
 	return 0;
 }
