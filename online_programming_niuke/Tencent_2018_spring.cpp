@@ -3,6 +3,8 @@
 #include<algorithm>
 #include<string>
 #include<map>
+#include<unordered_map>
+#include<bitset>
 #include<set>
 #include<regex>
 #include<iomanip>
@@ -631,11 +633,11 @@ int longest_no_repeat_substr(string str) {
 	auto v = vector<int>(n, 0);
 	v[0] = 1;
 	for (int i = 1; i < n; i++) {
-		auto it = find(str.begin() + i - v[i - 1], str.begin() + i - 1, str[i]);
-		decltype(it) end;
-		if (it == end) {
+		auto it = find(str.begin() + i - v[i - 1], str.begin() + i , str[i]);
+		//decltype(it) end;
+		if (it == str.begin()+i) {
 			v[i] = v[i - 1] + 1;
-			cout << "here"<<endl;
+			//cout << "here"<<endl;
 		}
 		else
 		{
@@ -649,6 +651,60 @@ int longest_no_repeat_substr(string str) {
 	}
 	return MAX;
 }
+
+//输出整数中二进制位数为1的个数
+//思路：使用bitset容器即可
+int  NumberOf1(int n) {
+		bitset<32> b=n;
+		int count=0;
+		auto nn=b.size();
+		for(int i=0;i<nn;i++)
+		{
+			if(b[i]==1)
+			count++;
+		}
+		return count;
+     }
+
+//思路2：使用位运算，将n分别与2的倍数相与然后若不为0即这位为1
+int  NumberOf1_2(int n) {
+int i=0,count=0;
+while(i<=31){
+		if(n&static_cast<int>(pow(2,i)))
+		count++;
+	i++;
+}
+return count;
+}
+
+//在一个字符串(0<=字符串长度<=10000，全部由字母组成)
+//中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+//思路：使用unordermap这一辅助的哈希表从而通过空间置换时间，可以在O(n)的时间复杂度内
+//找到对应的第一次出现的字符
+int FirstNotRepeatingChar(string str) {
+      unordered_map<char,int> m;
+	  for(int i=0;i<str.size();i++){
+		  auto x=m.find(str[i]);
+		  if(x==m.end()){
+			  //cout<<str[i]<<endl;
+			  m.insert(make_pair(str[i],1));
+		  }else{
+		  m[str[i]]+=1;}
+	  }
+	  char c='0';
+	  for(auto s:str){
+		  if(m[s]==1){
+			  c=s;
+			  break;
+		  }
+	  }
+	  cout<<c<<endl;
+	  auto count=str.find(c);
+	  if(count==string::npos)
+	  return -1;
+	  return count;  
+    }
+
 int main() {
 	/*Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
 	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
@@ -661,8 +717,7 @@ int main() {
 			std::cout<<xx<<" ";
 		std::cout<<std::endl;
 	}*/
-	string s = "arabcacfr";
-	cout << longest_no_repeat_substr(s);
+	cout<<FirstNotRepeatingChar("google");
 	getchar();
 	return 0;
 }
