@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<string>
 #include<map>
+#include<set>
 #include<regex>
 #include<iomanip>
 #include<cmath>
@@ -522,8 +523,134 @@ vector<vector<int> > FindPath(Binary_Node<T>* root, int expectNumber) {
 	}
 }
 
+//找到0123...111213...101102..这样数字序列中的第n个数字
+//首先需要确定n所在位置是几位数所在区域，因此使用一个函数来返回n所在几位数
+int nth_area(int n) {
+	int i = 2;
+	if (n <= 0)
+		return -1;
+	if (n > 0 && n <= 10)
+		return 1;
+	while (true) {
+		auto x = 9 * pow(10, i-1)*i + pow(10, i - 1);
+		if (n <= x) {
+			break;
+		}
+		i++;
+	}
+	return i;
+}
+
+int nth_number_of_array(int n) {
+	auto x = nth_area(n);
+	if (x == -1)
+		return -1;
+	auto num = ceil((n - pow(10, x - 1)) / x);
+	auto seq = (int)(n - pow(10, x - 1)) % x;
+	auto number = to_string(pow(10, x - 1) + num-1);
+	auto nth_number = number[x-1 - seq];
+	//cout << number << endl;
+	return nth_number-'0';
+}
+
+//把数组排成最小的数
+//思路：把数字转换成字符串然后进行拼接，通过比较字符串大小从而得到最小数
+string PrintMinNumber(vector<int> numbers) {
+	vector<string> v;
+	for (auto number : numbers)
+		v.push_back(to_string(number));
+	sort(v.begin(), v.end(), [](string a, string b) {
+		return a + b < b + a ? true : false;
+	});
+	string a;
+	for (auto str : v)
+		a += str;
+	return a;
+}
+
+//字符串翻译问题，将1可以翻译成a，将2可以翻译成b，以此类推，某个数字有几种翻译方法
+//思路：可以考虑使用动态规划，计算以i结尾的翻译方法种类，当i-1和i组成的数字在1~26之间时可以有两种方案
+int translate(int num) {
+	if (num < 0)
+		return 0;
+	auto str = to_string(num);
+	auto n = str.size();
+	vector<int> v(n, 0);
+	auto x = stoi(to_string(str[0]-'0') + to_string(str[1]-'0'));
+	v[0] = 1; v[1] = x<=25&&x>=10?2:1;
+	for (int i = 2; i < n; i++) {
+		auto y = stoi(to_string(str[i - 1] - '0') + to_string(str[i] - '0'));
+		v[i] =  y<= 25&&y>=10 ? v[i - 1] + v[i - 2] : v[i - 1];
+		//cout << stoi(to_string(str[i-1] - '0') + to_string(str[i] - '0')) << endl;
+	}
+	return v[n-1];
+}
+
+//礼物的最大价值，给一个二维数组，每一格都放置了礼物，从左上角开始拿起，可以向右或向下继续
+//问如何拿到最大价值的礼物
+//思路：使用动态规划循环即可
+int max_value_present(vector<vector<int>> v) {
+	if (v.empty() || v[0].empty())
+		return 0;
+	auto m = v.size(); auto n = v[0].size();
+	vector<vector<int>> max_matrix(m, vector<int>(n, 0));
+	max_matrix[0][0] = v[0][0];
+	for (int i = 1; i < m; i++)
+		max_matrix[i][0] = max_matrix[i - 1][0] + v[i][0];
+	for (int j = 1; j < n; j++)
+		max_matrix[0][j] = max_matrix[0][j - 1] + v[0][j];
+	for(int i=1;i<m;i++)
+		for (int j = 1; j < n; j++) {
+			max_matrix[i][j] = max(max_matrix[i-1][j],max_matrix[i][j-1])+v[i][j];
+		}
+	return max_matrix[m - 1][n - 1];
+}
+
+//丑数：把只包含质因子2、3和5的数称作丑数（Ugly Number）习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+//思路：丑数可以由之前较小的丑数乘以2、3或5获得，然后将其排序即可
+int GetUglyNumber_Solution(int index) {
+	if (index < 7)return index;
+	vector<int> res(index);
+	res[0] = 1;
+	int t2 = 0, t3 = 0, t5 = 0, i;
+	for (i = 1; i < index; ++i)
+	{
+		res[i] = min(res[t2] * 2, min(res[t3] * 3, res[t5] * 5));
+		if (res[i] == res[t2] * 2)t2++;
+		if (res[i] == res[t3] * 3)t3++;
+		if (res[i] == res[t5] * 5)t5++;
+	}
+	return res[index - 1];
+}
+
+//求解字符串中最长不含重复字符的子字符串长度
+//思路：使用动态规划找出以下标i为结尾的最长不含重复字符的子字符串的长度，然后如果在i+1时的字符未出现
+//在其中，则长度+1，若出现了，则需要判断两个重复字符之间相隔的距离然后与此时的长度进行比较
+int longest_no_repeat_substr(string str) {
+	auto n = str.size();
+	auto v = vector<int>(n, 0);
+	v[0] = 1;
+	for (int i = 1; i < n; i++) {
+		auto it = find(str.begin() + i - v[i - 1], str.begin() + i - 1, str[i]);
+		decltype(it) end;
+		if (it == end) {
+			v[i] = v[i - 1] + 1;
+			cout << "here"<<endl;
+		}
+		else
+		{
+			auto nn = str.begin() + i - 1 - it + 1;
+			v[i] = nn;
+		}
+	}
+	int MAX = 0;
+	for (auto vv : v) {
+		MAX = max(MAX, vv);
+	}
+	return MAX;
+}
 int main() {
-	Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
+	/*Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
 	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
 	Binary_Node<int> n8(8); Binary_Node<int> n9(9); Binary_Node<int> n10(10); Binary_Node<int> n11(11);
 	n1.left_child = &n2; n1.right_child = &n3; n2.left_child = &n4; n2.right_child = &n5; n3.left_child = &n6; n3.right_child = &n7;
@@ -533,7 +660,9 @@ int main() {
 		for(auto xx:x)
 			std::cout<<xx<<" ";
 		std::cout<<std::endl;
-	}
+	}*/
+	string s = "arabcacfr";
+	cout << longest_no_repeat_substr(s);
 	getchar();
 	return 0;
 }
