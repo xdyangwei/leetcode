@@ -677,6 +677,38 @@ while(i<=31){
 return count;
 }
 
+//数组中的逆序对，输入一个数组,求出这个数组中的逆序对的总数P。输出P%1000000007
+//思路：使用归并排序的思想，使用一个辅助数组，先计算子数组内的逆序对，再计算数组合并后的逆序对
+int reverse_InversePairs(vector<int> v, vector<int> &v1, int start, int end);
+int InversePairs(vector<int> data) {
+	vector<int> v1(data.size(), 0);
+	auto count = reverse_InversePairs(data, v1, 0, data.size() - 1);
+	return count % 1000000007;
+}
+
+int reverse_InversePairs(vector<int> v,vector<int> &v1,int start,int end) {
+	if (start == end) {
+		v1[start] = v[start];
+		return 0;
+	}
+	int middle = (start + end) / 2;
+	int count = 0;
+	count+=reverse_InversePairs(v, v1, start, middle);
+	count+=reverse_InversePairs(v, v1, middle+1, end);
+	for (int i = middle , j = end; i >= start && j >= middle+1;) {
+		if (v1[i] > v1[j]) {
+			swap(v1[i], v1[j]);
+			count++;
+			j--;
+		}
+		else {
+			i--; j--;
+		}
+	}
+	return count;
+}
+
+
 //在一个字符串(0<=字符串长度<=10000，全部由字母组成)
 //中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
 //思路：使用unordermap这一辅助的哈希表从而通过空间置换时间，可以在O(n)的时间复杂度内
@@ -705,6 +737,77 @@ int FirstNotRepeatingChar(string str) {
 	  return count;  
     }
 
+//统计一个数字在排序数组中出现的次数。
+//思路1：使用stl count函数
+//思路2：使用二分查找的思想，先找出第一个出现的下标，当mid值小于k时在右边找，大于k时在左边找，=k时判断是否左边第一个数是否是k
+//如果是则第一个k还出现在左边，如果不是说明这个就是我们需要的下标，再使用相同思路找出最后一个k的下标，如果不存在k则返回-1
+int GetFirstK(vector<int> data, int k) {
+	auto last = data.size()-1;
+	auto first = 0;  auto x = -1;
+	while (first <= last) {
+		auto mid = (last + first) / 2;
+		if (data[mid] > k) {
+			last = mid-1;
+		}
+		else if (data[mid] < k) {
+			first = mid + 1;
+		}
+		else {
+			//flag = 1;
+			if (mid >= 1) {
+				if (data[mid - 1] == k)
+					last = mid;
+				else {
+					x = mid; break;
+				}
+			}
+			else {
+				x = mid;
+				break;
+			}
+		}
+	}
+	return x;
+}
+
+int GetLastK(vector<int> data, int k) {
+	auto last = data.size() - 1;
+	auto first = 0;  auto x = -1;
+	while (first <= last) {
+		auto mid = (last + first) / 2;
+		if (data[mid] > k) {
+			last = mid-1;
+		}
+		else if (data[mid] < k) {
+			first = mid + 1;
+		}
+		else {
+			//flag = 1;
+			if (mid <= data.size()-2) {
+				if (data[mid + 1] == k)
+					first = mid;
+				else {
+					x = mid; break;
+				}
+			}
+			else {
+				x = mid;
+				break;
+			}
+		}
+	}
+	return x;
+}
+
+
+int GetNumberOfK(vector<int> data, int k) {
+	auto first = GetFirstK(data, k);
+	if (first == -1)
+		return -1;
+	auto last= GetLastK(data, k);
+	return last - first+1;
+}
+
 int main() {
 	/*Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
 	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
@@ -717,7 +820,7 @@ int main() {
 			std::cout<<xx<<" ";
 		std::cout<<std::endl;
 	}*/
-	cout<<FirstNotRepeatingChar("google");
+	cout << GetNumberOfK({ 1,2,3,3,3,3,4,5 }, 3);
 	getchar();
 	return 0;
 }
