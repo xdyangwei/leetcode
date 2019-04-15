@@ -808,19 +808,19 @@ int GetNumberOfK(vector<int> data, int k) {
 	return last - first+1;
 }
 
-int main() {
-	/*Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
-	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
-	Binary_Node<int> n8(8); Binary_Node<int> n9(9); Binary_Node<int> n10(10); Binary_Node<int> n11(11);
-	n1.left_child = &n2; n1.right_child = &n3; n2.left_child = &n4; n2.right_child = &n5; n3.left_child = &n6; n3.right_child = &n7;
-	n4.left_child = &n8; n4.right_child = &n9; n5.left_child = &n10;
-	auto z = FindPath(&n1,18);
-	for(auto x:z){
-		for(auto xx:x)
-			std::cout<<xx<<" ";
-		std::cout<<std::endl;
-	}*/
-	cout << GetNumberOfK({ 1,2,3,3,3,3,4,5 }, 3);
-	getchar();
-	return 0;
-}
+//int main() {
+//	/*Binary_Node<int> n1(1); Binary_Node<int> n2(2); Binary_Node<int> n3(3);
+//	Binary_Node<int> n4(4); Binary_Node<int> n5(5); Binary_Node<int> n6(6); Binary_Node<int> n7(7);
+//	Binary_Node<int> n8(8); Binary_Node<int> n9(9); Binary_Node<int> n10(10); Binary_Node<int> n11(11);
+//	n1.left_child = &n2; n1.right_child = &n3; n2.left_child = &n4; n2.right_child = &n5; n3.left_child = &n6; n3.right_child = &n7;
+//	n4.left_child = &n8; n4.right_child = &n9; n5.left_child = &n10;
+//	auto z = FindPath(&n1,18);
+//	for(auto x:z){
+//		for(auto xx:x)
+//			std::cout<<xx<<" ";
+//		std::cout<<std::endl;
+//	}*/
+//	cout << GetNumberOfK({ 1,2,3,3,3,3,4,5 }, 3);
+//	getchar();
+//	return 0;
+//}

@@ -2,6 +2,7 @@
 #include<vector>
 #include<thread>
 #include<stack>
+#include<regex>
 using namespace std;
 int split_number(int x, int n) {//
 	vector<int> v;
@@ -54,17 +55,17 @@ vector<int> multiply(const vector<int>& A) {
 	return v;
 }
 
-stack<int> stack1;//存放原始数据
-stack<int> stack2;//存放翻转之后的数据
-void push(int node) {
-	stack1.push(node);
+string reverseWords(string s) {
+	string ss = "\^(\\s\+)|(\\s+)\$";
+	string ssr = "(\\w*[!.,]*)\\s+([\\w]+)";
+	regex r(ss); regex r1(ssr);
+	string str = regex_replace(s, r, "");
+	string str1 = regex_replace(str, r1, "$1 $2");
+	return str1;
 }
-int pop() {
+
+int main() {
+	cout << reverseWords("  hello    world!      yy     ww.       askjldj  ");
+	getchar();
 	return 0;
 }
-//int main() {
-//	int n;
-//	cin >> n;
-//	cout << hentai_jump(n)<< endl;
-//	return 0;
-//}
