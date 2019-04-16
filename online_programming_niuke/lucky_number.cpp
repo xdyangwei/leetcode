@@ -77,12 +77,28 @@ string reverseWords(string s) {
 	return str1;
 }
 
-int main() {
-	stringstream s("   one.   +two three?   ~four   !five- ");
-	string str;
-	while (s >> str) {
-		cout << str << endl;
+string number_construct(int s) {
+	auto x = s / 3;
+	auto y = s % 3;
+	string ss="";
+	while (x--) {
+		ss.push_back('2');
+		ss.push_back('1');
 	}
+	if (y == 2)
+		ss.push_back('2');
+	if (y == 1) {
+		if (ss.empty())
+			ss = "1";
+		else {
+			ss.insert(ss.begin(),'1');
+		}
+	}
+	return ss;
+}
+
+int main() {
+	cout << number_construct(42) << endl;
 	//cout << reverseWords("");
 	getchar();
 	return 0;
