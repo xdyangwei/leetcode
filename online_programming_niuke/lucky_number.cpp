@@ -3,6 +3,7 @@
 #include<thread>
 #include<stack>
 #include<regex>
+#include<sstream>
 using namespace std;
 int split_number(int x, int n) {//
 	vector<int> v;
@@ -57,15 +58,32 @@ vector<int> multiply(const vector<int>& A) {
 
 string reverseWords(string s) {
 	string ss = "\^(\\s\+)|(\\s+)\$";
-	string ssr = "(\\w*[!.,]*)\\s+([\\w]+)";
-	regex r(ss); regex r1(ssr);
+	string ssr = "(\\w+[!.,-~?+]*)\\s+([!.,-~?+]*[\\w]+)";
+	regex r(ss); regex r1(ssr); regex r2("(\\w+[!.,-~?+]*)\\s{2,}([!.,-~?+]*[\\w]+)");
 	string str = regex_replace(s, r, "");
 	string str1 = regex_replace(str, r1, "$1 $2");
+	str1= regex_replace(str1, r2, "$1 $2");
+	auto n = str1.size();
+	reverse(str1.begin(), str1.end());
+	auto start = str1.begin();
+	auto it = find(str1.begin(), str1.end(), ' ');
+	while (it != str1.end()) {
+		reverse(start, it);
+		start = it + 1;
+		it = find(start, str1.end(), ' ');
+	}
+	auto it1 = str1.rfind(' ');
+	reverse(it1 + str1.begin()+1, str1.end());
 	return str1;
 }
 
 int main() {
-	cout << reverseWords("  hello    world!      yy     ww.       askjldj  ");
+	stringstream s("   one.   +two three?   ~four   !five- ");
+	string str;
+	while (s >> str) {
+		cout << str << endl;
+	}
+	//cout << reverseWords("");
 	getchar();
 	return 0;
 }
