@@ -56,3 +56,15 @@ int stack_with_queue::pop() {
 		return x;
 	}
 }
+MyClass::MyClass() {
+	std::cout << "construcor" << std::endl;
+}
+void* MyClass::operator new(size_t s) {
+	std::cout << "yes" << std::endl;
+	return malloc(sizeof(MyClass));
+}
+void* MyClass::operator new[](size_t s) {
+	std::cout << "wow" << std::endl;
+	return malloc(s);
+}
+

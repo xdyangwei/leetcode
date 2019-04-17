@@ -23,5 +23,13 @@ private:
 	std::queue<int> q1;
 	std::queue<int> q2;
 };
+class MyClass {
+public:
+	MyClass();
+	void* operator new(size_t s);
+	void* operator new[](size_t s);
+private:
+	int a{10};
+};
 
 

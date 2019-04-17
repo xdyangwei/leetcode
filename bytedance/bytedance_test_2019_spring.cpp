@@ -2,6 +2,7 @@
 #include<string>
 #include<cmath>
 #include<vector>
+#include"queue_with_stack.h"
 using namespace std;
 int programmer_manager() {
 	string s;
@@ -88,6 +89,6 @@ int robot() {
 	return energy[0];
 }
 int main() {
-	cout << robot()<<endl;
+	auto x = new MyClass[3];
 	getchar();
 }
