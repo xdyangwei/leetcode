@@ -91,6 +91,11 @@ int robot() {
 	}
 	return energy[0];
 }
+
+void right_value_test(int&& a) {
+	cout << a << endl;
+	a = 1;
+}
 int main() {
 	time_t timep;
 	tm t;
@@ -99,5 +104,11 @@ int main() {
 	localtime_s(&t, &timep);
 	asctime_s(tmp, &t);
 	cout << tmp << endl;
+	int a = 2;
+	auto x = std::move(a);
+	right_value_test(std::move(a));
+	cout << a << endl;
+	cout << x << endl;
+	cout << typeid(x).name() << endl;
 	getchar();
 }
