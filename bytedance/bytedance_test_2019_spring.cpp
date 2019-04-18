@@ -2,7 +2,10 @@
 #include<string>
 #include<cmath>
 #include<vector>
+#include<chrono>
+#include<thread>
 #include"queue_with_stack.h"
+#include<ctime>
 using namespace std;
 int programmer_manager() {
 	string s;
@@ -89,6 +92,12 @@ int robot() {
 	return energy[0];
 }
 int main() {
-	auto x = new MyClass[3];
+	time_t timep;
+	tm t;
+	time(&timep);
+	char tmp[64];
+	localtime_s(&t, &timep);
+	asctime_s(tmp, &t);
+	cout << tmp << endl;
 	getchar();
 }
