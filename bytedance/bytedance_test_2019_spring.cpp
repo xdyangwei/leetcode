@@ -6,6 +6,7 @@
 #include<thread>
 #include"queue_with_stack.h"
 #include<ctime>
+#include<cstring>
 using namespace std;
 int programmer_manager() {
 	string s;
@@ -97,18 +98,10 @@ void right_value_test(int&& a) {
 	a = 1;
 }
 int main() {
-	time_t timep;
-	tm t;
-	time(&timep);
-	char tmp[64];
-	localtime_s(&t, &timep);
-	asctime_s(tmp, &t);
-	cout << tmp << endl;
-	int a = 2;
-	auto x = std::move(a);
-	right_value_test(std::move(a));
-	cout << a << endl;
-	cout << x << endl;
-	cout << typeid(x).name() << endl;
+	char a[] = "123";
+	char x = 'a';
+	char* b = &x;
+	char** c = &b;
+	strtok_s(NULL,a,c);
 	getchar();
 }
