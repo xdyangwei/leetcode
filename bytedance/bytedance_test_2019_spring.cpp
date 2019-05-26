@@ -101,22 +101,26 @@ void right_value_test(int&& a) {
 //地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，
 //每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。
 //使用回溯法
-static stack<pair<int,int>> s;
+bool judge_row_col(int m,int n,int count) {
+	auto s1 = to_string(m);
+	auto s2 = to_string(n);
+	int x = 0;
+	for (auto xx : s1) {
+		x += (xx - '0');
+	}
+	for (auto xx : s2) {
+		x += (xx - '0');
+	}
+	if (x <= count)
+		return true;
+	return false;
+}
 int recursive_movingCount(vector<vector<int>>& flag,int m,int n,int rows,int cols,int& count) {
-	if (m < rows&&n < cols&&m >= 0 && n >= 0 && flag[m][n] == 0) {
+	if (m < rows&&n < cols&&m >= 0 && n >= 0 && flag[m][n] == 0&&judge_row_col(m,n,count)) {
 		flag[m][n] = 1;
-		s.push(make_pair(m,n));
-		count += recursive_movingCount(flag, m - 1, n, rows, cols, count);
-		count += recursive_movingCount(flag, m, n + 1, rows, cols, count);
-		count += recursive_movingCount(flag, m + 1, n, rows, cols, count);
-		count += recursive_movingCount(flag, m, n - 1, rows, cols, count);
-		return 1;
+		return 1+ recursive_movingCount(flag, m - 1, n, rows, cols, count)+ recursive_movingCount(flag, m, n + 1, rows, cols, count)+ recursive_movingCount(flag, m + 1, n, rows, cols, count)+ recursive_movingCount(flag, m, n - 1, rows, cols, count);
 	}
 	else {
-		if (s.size() == 1)
-			return count;
-		s.pop();
-		//auto x = s.top();
 		return 0;
 	}
 
@@ -124,10 +128,10 @@ int recursive_movingCount(vector<vector<int>>& flag,int m,int n,int rows,int col
 int movingCount(int threshold, int rows, int cols) {
 	vector<vector<int>> v(rows,vector<int>(cols,0));
 	int count = 0;
-	return recursive_movingCount(v, 0, 0, rows, cols, count);
+	return recursive_movingCount(v, 0, 0, rows, cols, threshold);
 }
 
 int main() {
-	cout << movingCount(10, 3, 4);
+	cout << movingCount(18, 40, 41);
 	getchar();
 }
