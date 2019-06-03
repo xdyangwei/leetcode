@@ -7,6 +7,7 @@
 #include"queue_with_stack.h"
 #include<ctime>
 #include<cstring>
+#include<regex>
 using namespace std;
 int programmer_manager() {
 	string s;
@@ -131,7 +132,49 @@ int movingCount(int threshold, int rows, int cols) {
 	return recursive_movingCount(v, 0, 0, rows, cols, threshold);
 }
 
+//在一个二维数组中（每个一维数组的长度相同），
+//每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
+//请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+//思路：从左下角开始找起，比当前数大的排除这一列，比当前数小的排除这一行
+bool Find(int target, vector<vector<int> > array) {
+	if (array.empty() || array[0].empty())
+		return false;
+	auto m = array.size();
+	auto n = array[0].size();
+	bool flag = false;
+	for (int i = m - 1; i >= 0; i--) {
+		if (array[i][0] == target) {
+			flag = true;
+			break;
+		}
+		else if (array[i][0] > target) {
+			continue;
+		}
+		else {
+			for (int j = 1; j < n; j++) {
+				if (array[i][j] == target) {
+					flag = true; break;
+				}
+			}
+		}
+	}
+	return flag;
+}
+
+//替换空格，将一个字符串中的每个空格替换成“%20”。
+//思路：使用正则表达式regex
+void replaceSpace(string str) {
+	string s = "(\\w+)\\s+(\\w+)";
+	regex r(s);
+	string s1=str;
+	while (s1.find(" ") != string::npos) {
+		s1 = regex_replace(s1,r,"$1%20$2");
+	}
+	cout << s1;
+}
+
+
 int main() {
-	cout << movingCount(18, 40, 41);
+	replaceSpace("We Are Happy 20 30");
 	getchar();
 }
