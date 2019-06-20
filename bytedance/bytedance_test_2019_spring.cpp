@@ -8,6 +8,8 @@
 #include<ctime>
 #include<cstring>
 #include<regex>
+#include<map>
+#include<set>
 using namespace std;
 int programmer_manager() {
 	string s;
@@ -173,6 +175,66 @@ void replaceSpace(string str) {
 	cout << s1;
 }
 
+
+//在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，
+//但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 
+//例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+//思路：使用set即可
+bool duplicate(int numbers[], int length, int* duplication) {
+	set<int> s1;
+	bool flag = false; int x = -1;
+	for (int i = 0; i < length; i++) {
+		if (s1.find(numbers[i]) != s1.end()) {
+			flag = true; x = numbers[i];
+			break;
+		}
+		else
+			s1.insert(numbers[i]);
+	}
+	*duplication = x;
+	return flag;
+}
+
+//请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，
+//而'*'表示它前面的字符可以出现任意次（包含0次）。
+bool match(char* str, char* pattern)
+{
+	if (*str == '\0')
+		return false;
+	while (*str != '\0') {
+		if (*str == *pattern||*pattern=='.') {
+			str++;
+			pattern++;
+		}
+		else if (*pattern == '*') {
+			auto x = str - 1;
+			if (*x != *str)
+				break;
+			while (*str == *x) {
+				x++;
+			}
+			str = x;
+			pattern++;
+		}
+		else {
+			auto x = pattern + 1;
+			while (*x == *pattern)
+				x++;
+			if (*x == '*') {
+				pattern = x + 1;
+				str++;
+			}
+			else
+			{
+				break;
+			}
+
+		}
+	}
+	if (*str != '\0')
+		return false;
+	return true;
+}
 
 int main() {
 	replaceSpace("We Are Happy 20 30");
