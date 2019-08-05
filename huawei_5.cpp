@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
 //字符串匹配，判断短字符串中的字符是否都在长字符串中
@@ -61,14 +62,49 @@ void CalcCapital(){
 
 //密码截取
 void max_passwd(){
-    string str;
-    while(cin>>str){
-        int Max=1;vector<int> v(str.size(),1);
+    string s;
+    while(cin>>s){
+        vector<int> v;
+    for(int i=0;i<s.size();i++){
+        int j=i,k=i+1,tmp=0;
+        if(j>=0&&k<s.size()&&s[j]!=s[k])
+            tmp=1;
+        else if(j<0||k>=s.size()){
+            tmp=1;
+        }else {
+            while (j>=0&&k<s.size()){
+                if(s[j]==s[k]){
+                j--;k++;}
+                else
+                    break;
+            }
+            tmp=max(tmp,k-j-1);
+        }
+        j=i-1,k=i+1;int tmp1=0;
+        if(j>=0&&k<s.size()&&s[j]!=s[k])
+            tmp1=1;
+        else if(j<0||k>=s.size()){
+            tmp1=1;
+        }else {
+            while (j>=0&&k<s.size()){
+                if(s[j]==s[k]){
+                    j--;k++;}
+                else
+                    break;
+            }
+            tmp1=max(tmp1,k-j-1);
+        }
+        v.push_back(max(tmp,tmp1));
+    }
+    int Max=0;
+    for(auto xx:v)
+        Max=max(xx,Max);
+    cout<<Max<<endl;
         
     }
 }
 
 int main(){
-    CalcCapital();
+    max_passwd();
     return 0;
 }
