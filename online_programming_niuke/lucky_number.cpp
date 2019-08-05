@@ -2,6 +2,8 @@
 #include<vector>
 #include<thread>
 #include<stack>
+#include<regex>
+#include<sstream>
 using namespace std;
 int split_number(int x, int n) {//
 	vector<int> v;
@@ -54,17 +56,50 @@ vector<int> multiply(const vector<int>& A) {
 	return v;
 }
 
-stack<int> stack1;//存放原始数据
-stack<int> stack2;//存放翻转之后的数据
-void push(int node) {
-	stack1.push(node);
+string reverseWords(string s) {
+	string ss = "\^(\\s\+)|(\\s+)\$";
+	string ssr = "(\\w+[!.,-~?+]*)\\s+([!.,-~?+]*[\\w]+)";
+	regex r(ss); regex r1(ssr); regex r2("(\\w+[!.,-~?+]*)\\s{2,}([!.,-~?+]*[\\w]+)");
+	string str = regex_replace(s, r, "");
+	string str1 = regex_replace(str, r1, "$1 $2");
+	str1= regex_replace(str1, r2, "$1 $2");
+	auto n = str1.size();
+	reverse(str1.begin(), str1.end());
+	auto start = str1.begin();
+	auto it = find(str1.begin(), str1.end(), ' ');
+	while (it != str1.end()) {
+		reverse(start, it);
+		start = it + 1;
+		it = find(start, str1.end(), ' ');
+	}
+	auto it1 = str1.rfind(' ');
+	reverse(it1 + str1.begin()+1, str1.end());
+	return str1;
 }
-int pop() {
+
+string number_construct(int s) {
+	auto x = s / 3;
+	auto y = s % 3;
+	string ss="";
+	while (x--) {
+		ss.push_back('2');
+		ss.push_back('1');
+	}
+	if (y == 2)
+		ss.push_back('2');
+	if (y == 1) {
+		if (ss.empty())
+			ss = "1";
+		else {
+			ss.insert(ss.begin(),'1');
+		}
+	}
+	return ss;
+}
+
+int main() {
+	cout << number_construct(42) << endl;
+	//cout << reverseWords("");
+	getchar();
 	return 0;
 }
-//int main() {
-//	int n;
-//	cin >> n;
-//	cout << hentai_jump(n)<< endl;
-//	return 0;
-//}
