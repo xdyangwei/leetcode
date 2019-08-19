@@ -81,7 +81,7 @@ void longest_sortable_subarray_length()
             if (s.find(v[j]) == s.end())
             {
                 s.insert(v[j]);
-                if (*(--s.end()) - *s.begin()+1 == (s.size()))
+                if (*(--s.end()) - *s.begin() + 1 == (s.size()))
                 {
                     Max = max(Max, (int)s.size());
                 }
@@ -95,8 +95,55 @@ void longest_sortable_subarray_length()
     cout << Max << endl;
 }
 
+//给定排序数组arr和整数k，不重复打印arr中所有相加和为k的不降序二元组
+//思路：使用双指针法，当前后两者加起来=k时输出，而为了处理重复的值需要把前后相等的值跳过
+//相加>k时后指针往前移，<k时前指针往后移
+void sum_equal_k()
+{
+    int n, k;
+    cin >> n >> k;
+    vector<int> v;
+    while (n--)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    for (int i = 0, j = v.size() - 1; i < j;)
+    {
+        //cout<<i<<" "<<j<<endl;
+        if (v[i] + v[j] == k)
+        {
+            cout << v[i] << " " << v[j] << endl;
+            while (v[i] == v[i + 1])
+                i++;
+            i++;
+            while (v[j] == v[j - 1])
+            {
+                j--;
+            }
+            j--;
+        }
+        else if (v[i] + v[j] > k)
+        {
+            while (v[j] == v[j - 1])
+            {
+                j--;
+            }
+            j--;
+            
+        }
+        else
+        {
+            while (v[i] == v[i + 1])
+                i++;
+            i++;
+        }
+    }
+}
+
 int main()
 {
-    longest_sortable_subarray_length();
+    sum_equal_k();
     return 0;
 }
