@@ -235,8 +235,87 @@ void stack_with_getmin()
     }
 }
 
+//用两个栈实现队列，支持队列的基本操作。
+template <typename T>
+class Stack
+{
+public:
+    void push(T a)
+    {
+        s1.push(a);
+    }
+    T top()
+    {
+        while (!s1.empty())
+        {
+            auto x = s1.top();
+            s2.push(x);
+            s1.pop();
+        }
+        auto x = s2.top();
+        while (!s2.empty())
+        {
+            auto x = s2.top();
+            s1.push(x);
+            s2.pop();
+        }
+        return x;
+    }
+    void pop()
+    {
+        while (!s1.empty())
+        {
+            auto x = s1.top();
+            s2.push(x);
+            s1.pop();
+        }
+        s2.pop();
+        while (!s2.empty())
+        {
+            auto x = s2.top();
+            s1.push(x);
+            s2.pop();
+        }
+    }
+
+private:
+    stack<T> s1;
+    stack<T> s2;
+};
+
+void queue_implemented_stack()
+{
+    Stack<int> s1;
+    int n;
+    cin >> n;
+    vector<string> v;
+    cin.get();
+    while (n)
+    {
+        string s;
+        getline(cin, s);
+        v.push_back(s);
+        n--;
+    }
+    for (auto vv : v)
+    {
+        //cout<<vv<<endl;
+        auto it = vv.find(" ");
+        if (it != string::npos)
+        {
+            auto ss = stoi(vv.substr(it + 1));
+            s1.push(ss);
+        }
+        if (vv == "peek")
+        {
+            cout << s1.top() << endl;
+        }
+        if (vv == "poll")
+            s1.pop();
+    }
+}
 int main()
 {
-    stack_with_getmin();
+    queue_implemented_stack();
     return 0;
 }
