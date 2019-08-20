@@ -314,8 +314,62 @@ void queue_implemented_stack()
             s1.pop();
     }
 }
+
+//用递归函数和栈逆序一个栈
+//思路：使用两次递归，第一次递归取出每次栈底的值，第二次递归将这个值插入到栈中
+int get_bottom_and_remove(stack<int> &s)
+{
+    auto x = s.top();
+    s.pop();
+    if (s.empty())
+        return x;
+    else
+    {
+        auto last = get_bottom_and_remove(s);
+        s.push(x);
+        return last;
+    }
+}
+
+void recursive_reverse_stack(stack<int> &s)
+{
+    if (s.empty())
+        return;
+    int i = get_bottom_and_remove(s);
+    recursive_reverse_stack(s);
+    s.push(i);
+}
+
+void recursive_print(stack<int> &s)
+{
+    if (s.empty())
+        return;
+    else
+    {
+        auto x = s.top();
+        s.pop();
+        recursive_print(s);
+        cout << x << " ";
+    }
+}
+
+void reverse_stack_with_recursive()
+{
+    int n;
+    cin >> n;
+    stack<int> s1;
+    while (n--)
+    {
+        int x;
+        cin >> x;
+        s1.push(x);
+    }
+    recursive_reverse_stack(s1);
+    recursive_print(s1);
+}
+
 int main()
 {
-    queue_implemented_stack();
+    reverse_stack_with_recursive();
     return 0;
 }
