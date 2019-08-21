@@ -5,6 +5,7 @@
 #include <set>
 #include <stack>
 #include <string>
+#include <numeric>
 using namespace std;
 void find_specific_number_in_matrix()
 {
@@ -368,8 +369,49 @@ void reverse_stack_with_recursive()
     recursive_print(s1);
 }
 
+//给定一个数组arr，该数组无序，但每个值均为正数，再给定一个正数k。
+//求arr的所有子数组中所有元素相加和为k的最长子数组的长度
+//思路：使用双指针法，一前一后指针一开始都指向第一个元素，当两者之间的和小于k时右指针向右移一位，
+//小于k的话左指针向左移一位，=k的话将两个指针之间的距离与当前结果比较取较大值，当右指针超过数组最右边时循环结束
+void longest_subarray_sum_k()
+{
+    int n, k;
+    cin >> n >> k;
+    vector<int> v;
+    while (n--)
+    {
+        int x;
+        cin >> x;
+        v.push_back(x);
+    }
+    int i = 0, j = 0, sum = v[0], len = 1;
+    while (j < v.size())
+    {
+        //cout<<i<<" "<<j<<" "<<sum<<endl;
+        if (sum < k)
+        {
+            if (j == v.size() - 1)
+                break;
+            j++;
+            sum += v[j];
+        }
+        else if (sum > k)
+        {
+            sum -= v[i];
+            i++;
+        }
+        else
+        {
+            len = max(len, j - i + 1);
+            sum -= v[i];
+            i++;
+        }
+    }
+    cout << len << endl;
+}
+
 int main()
 {
-    reverse_stack_with_recursive();
+    longest_subarray_sum_k();
     return 0;
 }
