@@ -410,6 +410,37 @@ void longest_subarray_sum_k()
     cout << len << endl;
 }
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+//链表中环的入口节点
+//第一步：找出是否有环，使用快慢指针
+//第二步：算出环的长度,在二者相遇的地方再让快指针走，两者再一次相遇时就走了整个环的长度
+//再使用一个快指针先走环的长度，然后再使用一个慢指针，二者相遇的地方就是环的入口地址
+bool hascircle(ListNode* pHead){
+    auto p1=pHead,p2=pHead;
+    bool flag=false;
+    while(p2!=nullptr){
+        p1=p1->next;
+        if(p2->next!=nullptr)
+        p2=p2->next->next;
+        else{
+            flag=true;break;
+        }
+        if(p1==p2){
+            flag=true;break;
+        }
+    }
+    return flag;
+}
+
+
+
+
 int main()
 {
     longest_subarray_sum_k();
