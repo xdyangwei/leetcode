@@ -422,6 +422,8 @@ struct ListNode {
 //第二步：算出环的长度,在二者相遇的地方再让快指针走，两者再一次相遇时就走了整个环的长度
 //再使用一个快指针先走环的长度，然后再使用一个慢指针，二者相遇的地方就是环的入口地址
 ListNode* meet;
+int CircleLength;
+//确定链表是否有环
 bool hascircle(ListNode* pHead){
     auto p1=pHead,p2=pHead;
     bool flag=false;
@@ -440,6 +442,7 @@ bool hascircle(ListNode* pHead){
     return flag;
 }
 
+//计算出环的长度
 int circle_length(ListNode* meet){
     auto p1=meet;
     auto p2=meet->next;
@@ -447,9 +450,22 @@ int circle_length(ListNode* meet){
     while(p1!=p2){
         p2=p2->next;i++;
     }
+    CircleLength=i;
     return i;
 }
 
+//找出环的入口节点
+ListNode* circle_entrance(ListNode* pHead){
+    auto p1=pHead;
+    auto p2=pHead;
+    while(CircleLength--){
+        p2=p2->next;
+    }
+    while(p1!=p2){
+        p1=p1->next;p2=p2->next;
+    }
+    return p1;
+}
 
 int main()
 {
