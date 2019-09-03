@@ -467,6 +467,20 @@ ListNode* circle_entrance(ListNode* pHead){
     return p1;
 }
 
+//数组中重复的数字
+//使用数组下标
+bool duplicate(int numbers[], int length, int* duplication) {
+    vector<int> v(length,0);bool flag=false;
+    for(int i=0;i<length;i++){
+        v[numbers[i]]+=1;
+        if(v[numbers[i]]>1){
+            *duplication=numbers[i];flag=true;
+            break;
+        }
+    }
+    return flag;
+}
+
 int main()
 {
     longest_subarray_sum_k();
