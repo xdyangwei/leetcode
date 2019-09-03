@@ -481,8 +481,44 @@ bool duplicate(int numbers[], int length, int* duplication) {
     return flag;
 }
 
+//二维数组的查找
+//每次找右上面的点，比它小的话可以排除这一列，比它大的话可以排除这一行
+bool Find(int target, vector<vector<int>> array) {
+    if(array.empty()||array[0].empty())
+        return false;
+    int m=array.size();int n=array[0].size();bool flag=false;
+    for(int i=0;i<m;){
+        cout<<"i:"<<i<<endl;
+        for(int j=n-1;j>=0;){
+            cout<<"j:"<<j<<endl;
+            if(array[i][j]<target){
+                i++;break;
+            }else if(array[i][j]>target){
+                j--;
+            }else{
+                flag=true;break;
+            }
+        }
+        if(flag==true)
+            break;
+    }
+    return flag;   
+    }
+
+//替换空格
+//使用辅助字符串
+void replaceSpace(char *str,int length){
+    string s(str);
+    auto it=s.begin();
+    while((it=find(it,s.end(),' '))!=s.end()){
+        s.replace(it,it+1,string("%20"));
+    }
+    strcpy(str,s.c_str());
+}
+
 int main()
 {
-    longest_subarray_sum_k();
+    string str("we are the");
+    replaceSpace(const_cast<char*>(str.c_str()),0);
     return 0;
 }
