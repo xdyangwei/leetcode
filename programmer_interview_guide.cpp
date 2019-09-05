@@ -6,6 +6,7 @@
 #include <stack>
 #include <string>
 #include <numeric>
+#include <cstring>
 using namespace std;
 void find_specific_number_in_matrix()
 {
@@ -410,71 +411,89 @@ void longest_subarray_sum_k()
     cout << len << endl;
 }
 
-struct ListNode {
+struct ListNode
+{
     int val;
     ListNode *next;
-    ListNode(int x) :
-        val(x), next(NULL) {
+    ListNode(int x) : val(x), next(NULL)
+    {
     }
 };
 //链表中环的入口节点
 //第一步：找出是否有环，使用快慢指针
 //第二步：算出环的长度,在二者相遇的地方再让快指针走，两者再一次相遇时就走了整个环的长度
 //再使用一个快指针先走环的长度，然后再使用一个慢指针，二者相遇的地方就是环的入口地址
-ListNode* meet;
+ListNode *meet;
 int CircleLength;
 //确定链表是否有环
-bool hascircle(ListNode* pHead){
-    auto p1=pHead,p2=pHead;
-    bool flag=false;
-    while(p2!=nullptr){
-        p1=p1->next;
-        if(p2->next!=nullptr)
-        p2=p2->next->next;
-        else{
+bool hascircle(ListNode *pHead)
+{
+    auto p1 = pHead, p2 = pHead;
+    bool flag = false;
+    while (p2 != nullptr)
+    {
+        p1 = p1->next;
+        if (p2->next != nullptr)
+            p2 = p2->next->next;
+        else
+        {
             break;
         }
-        if(p1==p2){
-            meet=p1;
-            flag=true;break;
+        if (p1 == p2)
+        {
+            meet = p1;
+            flag = true;
+            break;
         }
     }
     return flag;
 }
 
 //计算出环的长度
-int circle_length(ListNode* meet){
-    auto p1=meet;
-    auto p2=meet->next;
-    int i=1;
-    while(p1!=p2){
-        p2=p2->next;i++;
+int circle_length(ListNode *meet)
+{
+    auto p1 = meet;
+    auto p2 = meet->next;
+    int i = 1;
+    while (p1 != p2)
+    {
+        p2 = p2->next;
+        i++;
     }
-    CircleLength=i;
+    CircleLength = i;
     return i;
 }
 
 //找出环的入口节点
-ListNode* circle_entrance(ListNode* pHead){
-    auto p1=pHead;
-    auto p2=pHead;
-    while(CircleLength--){
-        p2=p2->next;
+ListNode *circle_entrance(ListNode *pHead)
+{
+    auto p1 = pHead;
+    auto p2 = pHead;
+    while (CircleLength--)
+    {
+        p2 = p2->next;
     }
-    while(p1!=p2){
-        p1=p1->next;p2=p2->next;
+    while (p1 != p2)
+    {
+        p1 = p1->next;
+        p2 = p2->next;
     }
     return p1;
 }
 
 //数组中重复的数字
 //使用数组下标
-bool duplicate(int numbers[], int length, int* duplication) {
-    vector<int> v(length,0);bool flag=false;
-    for(int i=0;i<length;i++){
-        v[numbers[i]]+=1;
-        if(v[numbers[i]]>1){
-            *duplication=numbers[i];flag=true;
+bool duplicate(int numbers[], int length, int *duplication)
+{
+    vector<int> v(length, 0);
+    bool flag = false;
+    for (int i = 0; i < length; i++)
+    {
+        v[numbers[i]] += 1;
+        if (v[numbers[i]] > 1)
+        {
+            *duplication = numbers[i];
+            flag = true;
             break;
         }
     }
@@ -483,42 +502,102 @@ bool duplicate(int numbers[], int length, int* duplication) {
 
 //二维数组的查找
 //每次找右上面的点，比它小的话可以排除这一列，比它大的话可以排除这一行
-bool Find(int target, vector<vector<int>> array) {
-    if(array.empty()||array[0].empty())
+bool Find(int target, vector<vector<int>> array)
+{
+    if (array.empty() || array[0].empty())
         return false;
-    int m=array.size();int n=array[0].size();bool flag=false;
-    for(int i=0;i<m;){
-        cout<<"i:"<<i<<endl;
-        for(int j=n-1;j>=0;){
-            cout<<"j:"<<j<<endl;
-            if(array[i][j]<target){
-                i++;break;
-            }else if(array[i][j]>target){
+    int m = array.size();
+    int n = array[0].size();
+    bool flag = false;
+    for (int i = 0; i < m;)
+    {
+        cout << "i:" << i << endl;
+        for (int j = n - 1; j >= 0;)
+        {
+            cout << "j:" << j << endl;
+            if (array[i][j] < target)
+            {
+                i++;
+                break;
+            }
+            else if (array[i][j] > target)
+            {
                 j--;
-            }else{
-                flag=true;break;
+            }
+            else
+            {
+                flag = true;
+                break;
             }
         }
-        if(flag==true)
+        if (flag == true)
             break;
     }
-    return flag;   
-    }
+    return flag;
+}
 
 //替换空格
 //使用辅助字符串
-void replaceSpace(char *str,int length){
+void replaceSpace(char *str, int length)
+{
     string s(str);
-    auto it=s.begin();
-    while((it=find(it,s.end(),' '))!=s.end()){
-        s.replace(it,it+1,string("%20"));
+    auto it = s.begin();
+    while ((it = find(it, s.end(), ' ')) != s.end())
+    {
+        s.replace(it, it + 1, string("%20"));
     }
-    strcpy(str,s.c_str());
+    strcpy(str, s.c_str());
+}
+
+//输入一个链表，按链表从尾到头的顺序返回。
+//使用递归或栈都可
+//递归版本
+vector<int> results;
+ListNode *printListFromTailToHead_recursive(ListNode *head)
+{
+    if (head->next)
+    {
+        printListFromTailToHead_recursive(head->next)->next = head;
+        results.push_back(head->val);
+    }
+    else
+    {
+        results.push_back(head->val);
+    }
+    return head;
+}
+
+vector<int> printListFromTailToHead(ListNode *head)
+{
+    printListFromTailToHead_recursive(head);
+    return results;
+}
+
+//使用栈的版本
+vector<int> printListFromTailToHead(ListNode *head)
+{
+    stack<int> s1;
+    while (head)
+    {
+        s1.push(head->val);
+        head = head->next;
+    }
+    vector<int> v;
+    while (!s1.empty())
+    {
+        v.push_back(s1.top());
+        s1.pop();
+    }
+    return v;
 }
 
 int main()
 {
-    string str("we are the");
-    replaceSpace(const_cast<char*>(str.c_str()),0);
+    auto x1 = new ListNode(1);
+    // x1->next=new ListNode(2);
+    // x1->next->next=new ListNode(3);
+    printListFromTailToHead(x1);
+    for (auto xx : results)
+        cout << xx << endl;
     return 0;
 }
