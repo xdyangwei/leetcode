@@ -592,20 +592,116 @@ vector<int> printListFromTailToHead_1(ListNode *head)
 }
 
 //零钱兑换，动态规划
-int coinChange(vector<int>& coins, int amount) {
-     vector<int> dp(amount+1,amount+1);
-     dp[0]=0;
-     for(int i=0;i<coins.size();i++){
-         for(int j=coins[j];j<amount+1;j++){
-             dp[j]=min(dp[j],dp[j-coins[i]]+1);
-         }
-     }
-     return dp[amount]<amount+1?dp[amount]:-1;
+int coinChange(vector<int> &coins, int amount)
+{
+    vector<int> dp(amount + 1, amount + 1);
+    dp[0] = 0;
+    for (int i = 0; i < coins.size(); i++)
+    {
+        for (int j = coins[j]; j < amount + 1; j++)
+        {
+            dp[j] = min(dp[j], dp[j - coins[i]] + 1);
+        }
     }
+    return dp[amount] < amount + 1 ? dp[amount] : -1;
+}
+
+//最长回文子串
+string longestPalindrome(string s)
+{
+    if(s.empty())
+    return "";
+    int start;int max_len=0;
+    for(int i=0;i<s.size();i++){
+        int k=i,j=i;
+        while(s[i]==s[i+1])
+        i++;
+        k=i;
+        while(j>0&&k<s.size()-1&&s[j-1]==s[k+1]){
+            j--;k++;
+        }
+        if(k-j+1>max_len)
+        {
+            max_len=k-j+1;
+            start=j;
+        }
+    }
+    return s.substr(start,max_len);
+}
+
+//不同路径，动态规划
+int uniquePaths(int m, int n) {
+    vector<vector<int>> v(m,vector<int>(n,0));
+    for(int i=0;i<m;i++)
+    v[i][0]=1;
+    for(int i=0;i<n;i++)
+    v[0][i]=1;
+    for(int i=1;i<m;i++){
+        for(int j=1;j<n;j++){
+            v[i][j]=v[i-1][j]+v[i][j-1];
+        }
+    }
+    return v[m-1][n-1];
+    }
+
+//不同路径，含障碍物
+//动态规划
+int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid){
+    int m=obstacleGrid.size();int n=obstacleGrid[0].size();
+    vector<vector<long>> v(m,vector<long>(n,0));
+    for(int i=0;i<m;i++){
+        if(obstacleGrid[i][0]!=1)
+        v[i][0]=1;
+        else
+        break;
+    }
+    for(int i=0;i<n;i++){
+        if(obstacleGrid[0][i]!=1)
+        v[0][i]=1;
+        else
+        break;
+    }
+    for(int i=1;i<m;i++){
+        for(int j=1;j<n;j++){
+            if(obstacleGrid[i][j]==1)
+            v[i][j]=0;
+            else
+            v[i][j]=v[i-1][j]+v[i][j-1];
+        }
+    }
+    return v[m-1][n-1];
+}
+
+
+//输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
+//使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
+//并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+//思路：找出第一个偶数，然后找出这个偶数之后的第一个奇数，将这个奇数插入到这第一个偶数之前
+//直到这个偶数之后没有奇数
+void odd_even_exchange(vector<int> &v){
+    for(int i=0;i<v.size();i++){
+        while(v[i]&0x1){
+            i++;
+        }
+        int j=i;
+        auto it=find_if(v.begin()+j,v.end(),[](int a){
+            return a&0x1;
+        });
+        if(it==v.end())
+        break;
+        else{
+            auto x=*it;
+            v.erase(it);
+            v.insert(v.begin()+j,x);
+        }
+    }
+}
 
 int main()
 {
-    vector<int> v{186,419,83,408};
-    cout<<coinChange(v,6249);
+    vector<int> v{1,3,5,6,8,7};
+    odd_even_exchange(v);
+    for(auto xx:v)
+    cout<<xx<<endl;
     return 0;
 }
