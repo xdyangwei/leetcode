@@ -574,7 +574,7 @@ vector<int> printListFromTailToHead(ListNode *head)
 }
 
 //使用栈的版本
-vector<int> printListFromTailToHead(ListNode *head)
+vector<int> printListFromTailToHead_1(ListNode *head)
 {
     stack<int> s1;
     while (head)
@@ -591,13 +591,21 @@ vector<int> printListFromTailToHead(ListNode *head)
     return v;
 }
 
+//零钱兑换，动态规划
+int coinChange(vector<int>& coins, int amount) {
+     vector<int> dp(amount+1,amount+1);
+     dp[0]=0;
+     for(int i=0;i<coins.size();i++){
+         for(int j=coins[j];j<amount+1;j++){
+             dp[j]=min(dp[j],dp[j-coins[i]]+1);
+         }
+     }
+     return dp[amount]<amount+1?dp[amount]:-1;
+    }
+
 int main()
 {
-    auto x1 = new ListNode(1);
-    // x1->next=new ListNode(2);
-    // x1->next->next=new ListNode(3);
-    printListFromTailToHead(x1);
-    for (auto xx : results)
-        cout << xx << endl;
+    vector<int> v{186,419,83,408};
+    cout<<coinChange(v,6249);
     return 0;
 }
