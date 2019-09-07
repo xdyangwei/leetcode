@@ -609,99 +609,197 @@ int coinChange(vector<int> &coins, int amount)
 //最长回文子串
 string longestPalindrome(string s)
 {
-    if(s.empty())
-    return "";
-    int start;int max_len=0;
-    for(int i=0;i<s.size();i++){
-        int k=i,j=i;
-        while(s[i]==s[i+1])
-        i++;
-        k=i;
-        while(j>0&&k<s.size()-1&&s[j-1]==s[k+1]){
-            j--;k++;
-        }
-        if(k-j+1>max_len)
+    if (s.empty())
+        return "";
+    int start;
+    int max_len = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        int k = i, j = i;
+        while (s[i] == s[i + 1])
+            i++;
+        k = i;
+        while (j > 0 && k < s.size() - 1 && s[j - 1] == s[k + 1])
         {
-            max_len=k-j+1;
-            start=j;
+            j--;
+            k++;
+        }
+        if (k - j + 1 > max_len)
+        {
+            max_len = k - j + 1;
+            start = j;
         }
     }
-    return s.substr(start,max_len);
+    return s.substr(start, max_len);
 }
 
 //不同路径，动态规划
-int uniquePaths(int m, int n) {
-    vector<vector<int>> v(m,vector<int>(n,0));
-    for(int i=0;i<m;i++)
-    v[i][0]=1;
-    for(int i=0;i<n;i++)
-    v[0][i]=1;
-    for(int i=1;i<m;i++){
-        for(int j=1;j<n;j++){
-            v[i][j]=v[i-1][j]+v[i][j-1];
+int uniquePaths(int m, int n)
+{
+    vector<vector<int>> v(m, vector<int>(n, 0));
+    for (int i = 0; i < m; i++)
+        v[i][0] = 1;
+    for (int i = 0; i < n; i++)
+        v[0][i] = 1;
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 1; j < n; j++)
+        {
+            v[i][j] = v[i - 1][j] + v[i][j - 1];
         }
     }
-    return v[m-1][n-1];
-    }
+    return v[m - 1][n - 1];
+}
 
 //不同路径，含障碍物
 //动态规划
-int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid){
-    int m=obstacleGrid.size();int n=obstacleGrid[0].size();
-    vector<vector<long>> v(m,vector<long>(n,0));
-    for(int i=0;i<m;i++){
-        if(obstacleGrid[i][0]!=1)
-        v[i][0]=1;
+int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid)
+{
+    int m = obstacleGrid.size();
+    int n = obstacleGrid[0].size();
+    vector<vector<long>> v(m, vector<long>(n, 0));
+    for (int i = 0; i < m; i++)
+    {
+        if (obstacleGrid[i][0] != 1)
+            v[i][0] = 1;
         else
-        break;
+            break;
     }
-    for(int i=0;i<n;i++){
-        if(obstacleGrid[0][i]!=1)
-        v[0][i]=1;
+    for (int i = 0; i < n; i++)
+    {
+        if (obstacleGrid[0][i] != 1)
+            v[0][i] = 1;
         else
-        break;
+            break;
     }
-    for(int i=1;i<m;i++){
-        for(int j=1;j<n;j++){
-            if(obstacleGrid[i][j]==1)
-            v[i][j]=0;
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 1; j < n; j++)
+        {
+            if (obstacleGrid[i][j] == 1)
+                v[i][j] = 0;
             else
-            v[i][j]=v[i-1][j]+v[i][j-1];
+                v[i][j] = v[i - 1][j] + v[i][j - 1];
         }
     }
-    return v[m-1][n-1];
+    return v[m - 1][n - 1];
 }
-
 
 //输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
 //使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
 //并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 //思路：找出第一个偶数，然后找出这个偶数之后的第一个奇数，将这个奇数插入到这第一个偶数之前
 //直到这个偶数之后没有奇数
-void odd_even_exchange(vector<int> &v){
-    for(int i=0;i<v.size();i++){
-        while(v[i]&0x1){
+void odd_even_exchange(vector<int> &v)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        while (v[i] & 0x1)
+        {
             i++;
         }
-        int j=i;
-        auto it=find_if(v.begin()+j,v.end(),[](int a){
-            return a&0x1;
+        int j = i;
+        auto it = find_if(v.begin() + j, v.end(), [](int a) {
+            return a & 0x1;
         });
-        if(it==v.end())
-        break;
-        else{
-            auto x=*it;
+        if (it == v.end())
+            break;
+        else
+        {
+            auto x = *it;
             v.erase(it);
-            v.insert(v.begin()+j,x);
+            v.insert(v.begin() + j, x);
         }
     }
 }
 
+//剪绳子，给你一根长度为n的绳子，请把绳子剪成m段（m、n都是整数，n>1并且m>1），
+//每段绳子的长度记为k[0],k[1],...,k[m]。请问k[0]xk[1]x...xk[m]可能的最大乘积是多少？
+//思路：使用动态规划
+int cutRope(int number)
+{
+    if (number < 2)
+        return 0;
+    if (number == 2)
+        return 1;
+    if (number == 3)
+        return 2;
+
+    int *products = (int *)malloc((number + 1) * sizeof(int));
+    //assert(products != NULL);
+    memset(products, 0, (number + 1) * sizeof(int));
+    /****长度为1、2、3、4的绳子的最大积********/
+    products[0] = 0;
+    products[1] = 1;
+    products[2] = 2;
+    products[3] = 3;
+
+    int max = 0;
+    int i = 0;
+    int j = 0;
+
+    for (i = 4; i <= number; i++)
+    {
+        max = 0;
+        for (j = 1; j <= i / 2; j++)
+        {
+            int product = products[j] * products[i - j];
+            if (max < product)
+                max = product;
+
+            products[i] = max;
+        }
+    }
+    max = products[number];
+
+    free(products);
+    products = NULL;
+
+    return max;
+}
+
+//0-1背包问题
+//使用动态规划
+int Knapsack_01()
+{
+    int n, w;
+    cin >> n >> w;
+    int n1 = n;
+    vector<pair<int, int>> goods;
+    while (n--)
+    {
+        int x, y;
+        cin >> x >> y;
+        goods.push_back(make_pair(x, y));
+    }
+    vector<vector<int>> v(n1 + 1, vector<int>(w + 1, 0));
+    for (int i = 1; i <= n1; i++)
+    {
+        for (int j = w; j >= 1; j--)
+        {
+            if (j >= goods[i - 1].first)
+            {
+                v[i][j] = max(v[i - 1][j], v[i - 1][j - goods[i - 1].first] + goods[i - 1].second);
+            }
+            else
+            {
+                v[i][j] = v[i - 1][j];
+            }
+        }
+    }
+    int Max = 0;
+    for (auto x : v)
+    {
+        for (auto xx : x)
+        {
+            Max = max(xx, Max);
+        }
+    }
+    return Max;
+}
+
 int main()
 {
-    vector<int> v{1,3,5,6,8,7};
-    odd_even_exchange(v);
-    for(auto xx:v)
-    cout<<xx<<endl;
+    cout << Knapsack_01() << endl;
     return 0;
 }
