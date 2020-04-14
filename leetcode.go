@@ -1,11 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"strconv"
+)
 
 func main() {
-	a := []int{2, 7, 11, 15}
-	target := 9
-	fmt.Println(twoSum(a, target))
+	s := "yangwei"
+	CreateList(s)
 }
 
 //problem1：两数之和，暴力解法
@@ -36,4 +37,40 @@ func twoSum2(nums []int, target int) []int {
 		//fmt.Println(m)
 	}
 	return nil
+}
+
+//ListNode problem2:两数相加
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+//暴力解法时间复杂度太高
+func ListSum(l *ListNode) int {
+	sum1 := 0
+	index := 1
+	for l != nil {
+		sum1 += (l.Val * index)
+		index *= 10
+		l = l.Next
+	}
+	return sum1
+}
+
+func CreateList(str string) *ListNode {
+	if len(str) == 0 {
+		return nil
+	}
+	l := new(ListNode)
+	l.Val = int(str[0] - '0')
+	l.Next = CreateList(str[1:])
+	return l
+}
+
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	sum1 := ListSum(l1)
+	sum2 := ListSum(l2)
+	sum := sum1 + sum2
+	s := strconv.Itoa(sum)
+	return CreateList(s)
 }
